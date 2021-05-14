@@ -1,2 +1,2 @@
 <?php
-header("location: dashboard/overview");
+header("location: ./overview");
