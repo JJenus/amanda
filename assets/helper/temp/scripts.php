@@ -39,8 +39,7 @@
 		  <!--end::Page Custom Javascript-->
 		<?php endif; ?>
 		
-		<?php if ($page === "new_staff"): ?>
-		  <script>
+		<script>
 		  (function () {
         'use strict'
       
@@ -60,7 +59,9 @@
             }, false)
           })
       })() 
-		</script> 
+		</script>  
+		
+		<?php if ($page === "new_staff"): ?>
 		  <!-- code... -->
 		  <script>
 		    $(function (){
@@ -128,7 +129,60 @@
 		  </script>
 		<?php endif; ?>
 		
-		
+		<?php if ($page === "new_product"): ?>
+		  <script >
+		    function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+    
+                reader.onload = function (e) {
+                  var str = "#product-image"
+                  $(str).attr('src', e.target.result)
+                  $(str).removeClass('d-none')
+                  $('#product-img-div').removeClass("border-danger")
+                };
+    
+                reader.readAsDataURL(input.files[0]);
+                //$('#file'+imgIndex).val(input.files[0])
+            }
+        }
+        
+        $(function (){
+          $('.file-select').click(function (){
+            $('#product-file').click();
+          })
+          
+          $("#product-form").submit(function (e){
+            e.preventDefault()
+            if (!$("#product-form")[0].checkValidity()) {
+              if(!$('#product-file').val()){
+                $('#product-img-div').addClass("border-danger")
+              } 
+              return ;
+            }
+            
+            $("#btn-product").attr("data-kt-indicator", "on");
+            var form = new FormData ($("#product-form")[0])
+          
+            $.ajax({
+              url: "<?= base_url ?>/dashboard/server-functions/", 
+              processData: false, 
+              contentType: false, 
+              method: "POST",
+              data: form, 
+              success: function(res){
+                console.log(res);
+              },
+              error: (err)=>{
+                console.log(err)
+              } 
+            }).always(()=>{
+              $("#btn-product").attr("data-kt-indicator", null);
+            })
+          })
+        })
+		  </script>
+		<?php endif; ?>
 		<!--end::Javascript-->
 	</body>
 	<!--end::Body-->

@@ -15,7 +15,7 @@
 							<div class="container">
 								<!--begin::Row-->
 								<div class="row g-0 g-xl-5 justify-content-center g-xxl-8">
-									<div class="col-lg-4">
+									<div class="col-lg-8">
 									  <div class="card card-stretch mb-5 mb-xxl-8">
 									    <div class="card-body">
 									      <h4 class="card-title fs-1 mb-8">

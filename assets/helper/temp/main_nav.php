@@ -32,19 +32,25 @@
 							</div>
 							<!--end::Left-->
 							<!--begin::Right-->
-							<div class="d-flex align-items-center">
+							<div class="d-flex align-items-center d-flex-row justify-content-around">
 								<!--begin::logout-->
 								<?php if (!check()): ?>
   								<!--begin::login-->
-  								<a href="<?= base_url() ?>/login" class="btn btn-icon btn-sm btn-active-bg-accent ms-1 ms-lg-6" >
-  									<i class="fas fs-4 text-dark fa-sign-in-alt"></i>
+  								<div class="col-3">
+  								<a href="<?= base_url() ?>/login" class="btn  btn-icon btn-sm btn-active-light-primary ms-1 ms-lg-6" >
+  									<i class="fas fs-2x fa-sign-in-alt"></i>
+  									<span class="d-none d-md-inline-block"> Login</span>
   								</a>
+  								</div>
   								<!--end::login -->
 								<?php else: ?>
 								  <!-- html... -->
-  								<a href="<?= base_url() ?>/logout" class="btn btn-icon btn-sm btn-active-bg-accent ms-1 ms-lg-6" >
-  									<i class="fas fs-4 text-dark fa-sign-out-alt"></i>
+								  <div class="col-3">
+  								<a href="<?= base_url() ?>/logout" class="btn btn-icon btn-sm btn-active-light-danger ms-3 ms-lg-6" >
+  									<i class="fas fs-2x fa-power-off mr-4"></i>
+  									<span class="d-md-inline-block d-none pl-4"> Logout</span>
   								</a>
+  								</div>
 								<!--end::logout-->
 								<?php endif; ?>
 								
@@ -53,16 +59,18 @@
 								<!--begin::Aside Toggler-->
 								<!--end::Aside Toggler-->
 								<!--begin::Sidebar Toggler-->
-								<button class="btn btn-icon btn-sm btn-active-bg-accent d-lg-none ms-1 ms-lg-6" id="kt_sidebar_toggler">
+								<div class="col-3">
+								<button class="btn  btn-icon btn-sm btn-active-light-primary d-lg-none ms-4 ms-lg-6" id="kt_sidebar_toggler">
 									<!--begin::Svg Icon | path: icons/stockholm/Text/Menu.svg-->
-								  <span class="fas fa-shopping-cart fs-5"></span>
+								  <span class="fas fa-shopping-cart fs-2"></span>
 								  <!--begin::Dropdown-->
-									<span class=" p-1 fw-bolder text-danger" >
-										<span class="position-absolute fs-6">3</span>
-									</span>
+								  <sub class="">
+									<span style="font-size: 1.3em;" class="badge mt-3 fw-bolder badge-circle badge-light-danger">5</span>
+								  </sub>
 									<!--begin::Menu-->
 									<!--end::Svg Icon-->
 								</button>
+								</div>
 								<!--end::Sidebar Toggler-->
 							<?php endif; ?>
 							</div>

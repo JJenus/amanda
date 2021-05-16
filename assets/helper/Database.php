@@ -14,23 +14,6 @@ class Database{
    $this->connect();
   }
   
-  public function isRegisteredEmail($email){
-    $sql='SELECT * FROM users WHERE email=?';
-    
-    try {
-      $pstmt = $this->connection->prepare($sql);
-      $pstmt->execute([$email]);
-      $user = $pstmt->fetch();
-      
-      if(!empty($user)){
-        return true;
-      }
-      return false;
-    } catch (PDOException $e) {
-      return $e->getMessage();//Remove or change message in production code();
-    }
-  }
-  
   public function login(){
     $email = $_POST['email'] ;
     $password = $_POST['password'];
@@ -101,6 +84,23 @@ class Database{
     }
   } 
                                                                                                                                  
+  public function isRegisteredEmail($email){
+    $sql='SELECT * FROM users WHERE email=?';
+    
+    try {
+      $pstmt = $this->connection->prepare($sql);
+      $pstmt->execute([$email]);
+      $user = $pstmt->fetch();
+      
+      if(!empty($user)){
+        return true;
+      }
+      return false;
+    } catch (PDOException $e) {
+      return $e->getMessage();//Remove or change message in production code();
+    }
+  }
+  
   public function connect(){
     if(!$this->connection){
       $this->connection = new PDO($this->sql3) or exit("Connection error");

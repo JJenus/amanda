@@ -160,6 +160,7 @@ var KTAppShop = function () {
           _alter_qty(id, n)
         }
       })
+      
       $('body').on('click', '.remove_from_cart', function(){
         var id = Number($(this).data('id'));
         
