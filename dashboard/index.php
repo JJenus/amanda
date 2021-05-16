@@ -1,3 +1,4 @@
 <?php
+require "../assets/helper/bootstrap.php";
 
-header("location: ./overview");
+header("location: ./dashboard/overview");

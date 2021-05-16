@@ -2,9 +2,9 @@
 require "../../assets/helper/bootstrap.php";
 
 $main = "./ingredients.php";
-$page= "new_staff";
+$page= "ingredients";
 
-# $staffs = (new Database ())->getIngredients();
+$ingredients = (new Database ())->getIngredients();
 
 
 include HELPERPATH.'temp/layout.php';

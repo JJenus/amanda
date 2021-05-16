@@ -183,6 +183,116 @@
         })
 		  </script>
 		<?php endif; ?>
+		
+		<?php if ($page === "ingredients"): ?>
+		  <script>
+		    var rawCount = "<?= count($ingredients) ?>" ;
+		    var editId;
+		    
+		    function editIngredient(id){
+		      console.log($("#ing_"+id).text())
+		      $("#edit-ing-name").val($("#ing_name_"+id).text());
+		      
+		      $("#edit-ing-qty").val($("#ing_qty_"+id).text());
+		      
+		      $("#edit-ing-id").val($("#ing_"+id).text());
+		      
+		      console.log("val: " +$("#edit-ing-name").val())
+		      
+		      if($("#edit-ing").hasClass("d-none"))
+		        toggleEdit()
+		    }
+		    
+		    function toggleEdit(){
+		      $("#create-ing, #edit-ing").toggleClass("d-none");
+		    }
+		    
+        $(function (){
+          
+          $("#edit-ingredient").submit(function (e){
+            e.preventDefault()
+            if (!$("#edit-ingredient")[0].checkValidity()) {
+              return false;
+            }
+            
+            $("#btn-edit-ingredient").attr("data-kt-indicator", "on");
+            var form = $("#edit-ingredient").serializeArray()
+            
+            // console.log(form)
+          
+            $.ajax({
+              url: "<?= base_url ?>/dashboard/server-functions/", 
+              method: "POST",
+              data: form, 
+              success: function(res){
+                console.log(res);
+                if(!res.status){
+                  console.log(res.report)
+                  return false;
+                }
+                var data = res.data
+                $("#ing_"+data.id).text(data.id)
+                $("#ing_name_"+data.id).text(data.name)
+                $("#ing_qty_"+data.id).text(data.qty)
+              },
+              error: (err)=>{
+                console.log(err)
+              } 
+            }).always(()=>{
+              $("#btn-edit-ingredient").attr("data-kt-indicator", null);
+            })
+          });
+          
+          $("#form-ingredients").submit(function (e){
+            e.preventDefault()
+            if (!$("#form-ingredients")[0].checkValidity()) {
+              return false;
+            }
+            
+            $("#btn-ingredients").attr("data-kt-indicator", "on");
+            var form = $("#form-ingredients").serializeArray()
+            
+            // console.log(form)
+          
+            $.ajax({
+              url: "<?= base_url ?>/dashboard/server-functions/", 
+              method: "POST",
+              data: form, 
+              success: function(res){
+                console.log(res);
+                if(!res.status){
+                  console.log(res.report)
+                  return false;
+                }
+                var data = res.data
+                rawCount++; 
+                var temp = `
+                  <tr>
+				            <td class="">${rawCount}</td>
+				            <td class="" id="ing_name_${rawCount}">${data.name}</td>
+				            <td class="" id="ing_qty_${rawCount}">${data.qty}</td>
+				            <td class="">
+				              <button onclick="editIngredient('${rawCount}')" class="btn btn-link btn-sm p-1 btn-color-info btn-active-color-primary me-5 mb-2">
+				                <i class="fas fa-pen"></i>
+				              </button>
+				            </td>
+				          </tr>
+                `
+                
+                $("#tbody").append(temp);
+                
+              },
+              error: (err)=>{
+                console.log(err)
+              } 
+            }).always(()=>{
+              $("#btn-ingredients").attr("data-kt-indicator", null);
+            })
+          })
+        })
+        
+		  </script>
+		<?php endif; ?>
 		<!--end::Javascript-->
 	</body>
 	<!--end::Body-->

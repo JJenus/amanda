@@ -17,27 +17,71 @@
 								<div class="row g-0 g-xl-5 justify-content-center g-xxl-8">
 									<div class="col-lg-8">
 									  <div class="card card-stretch mb-5 mb-xxl-8">
-									    <div class="card-body">
+									    
+									    <div id="create-ing" class="card-body">
 									      <h4 class="card-title fs-1 mb-8">
 									        Add New Ingredients
 									      </h4>
-									      <form class="needs-validation d-md-flex justify-content-between align-items-end " id="form-add-staff" action="<?= base_url ?>/auth" novalidate>
+									      <form class="needs-validation d-md-flex justify-content-between align-items-end " id="form-ingredients" action="<?= base_url ?>/auth" novalidate>
+									        <input class="d-none" type="text" name="upload_ingredient" value="true">
 									        <div class="d-flex justify-content-between col-md-10" >
   									        <div class="fv-row mb-5 col-7 col-md-8">
   									          <label class="form-label fs-6 fw-bolder" for="rawmat-name">Ingredient</label>
-  									          <input id="rawmat-name" required class="form-control" name="ingredient" type="text" placeholder="Email" >
+  									          <input id="rawmat-name" required class="form-control" name="ingredient" type="text" placeholder="" >
   									          <div class="invalid-feedback" id="rawmat-name-feedback"></div>
   									        </div>
   									        <div class="fv-row mb-5 col-4 col-md-3">
-  									          <label class="form-label fs-6 fw-bolder" for="password">Quantity</label>
-  									          <input name="rawmat-amount"  class="form-control ml-3"  type="text" placeholder="e.g 50kg" required>
+  									          <label class="form-label fs-6 fw-bolder" for="rawmat-qty">Quantity</label>
+  									          <input name="rawmat-qty"  class="form-control ml-3"  type="text" placeholder="e.g 50kg" required>
   									        </div>
 									        </div>
 									        
 									        <div align="right" class="mb-5" >
-									          <button id="btn-add-staff" type="submit" class="btn btn-primary">
-  									          <span id="spinner-add-staff" class="spinner-grow d-none spinner-grow-sm"></span>
-  									          Submit
+									          <button id="btn-ingredients" type="submit" class="btn btn-primary">
+  									          <span class="indicator-label">
+                                Submit
+                              </span>
+                              <span class="indicator-progress">
+                                  Please wait... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                              </span>
+  									        </button> 
+									        </div>
+									      </form>
+									    </div>
+									    
+									    <div id="edit-ing" class="card-body d-none">
+									      <h4 class="card-title d-flex justify-content-between align-items-end fs-1 mb-8">
+									        <span>
+									          Edit Ingredient  
+									        </span>
+									        <button onclick="toggleEdit()" class="btn btn-light-primary">
+									          <i class="fas fa-arrow-left"></i>
+									           back
+									        </button>
+									      </h4>
+									      <form class="needs-validation d-md-flex justify-content-between align-items-end " id="edit-ingredient" action="<?= base_url ?>/auth" novalidate>
+									        <input class="d-none" type="text" name="update_ingredient" value="true">
+									        <input id="edit-ing-id" class="d-none" type="text" name="id" >
+									        <div class="d-flex justify-content-between col-md-10" >
+  									        <div class="fv-row mb-5 col-7 col-md-8">
+  									          <label class="form-label fs-6 fw-bolder" for="edit-name">Ingredient</label>
+  									          <input id="edit-ing-name" required class="form-control" name="ingredient" type="text" placeholder="" >
+  									          <div class="invalid-feedback" id="edit-name-feedback"></div>
+  									        </div>
+  									        <div class="fv-row mb-5 col-4 col-md-3">
+  									          <label class="form-label fs-6 fw-bolder" for="edit-qty">Quantity</label>
+  									          <input id="edit-ing-qty" name="qty"  class="form-control ml-3"  type="text" placeholder="e.g 50kg" required>
+  									        </div>
+									        </div>
+									        
+									        <div align="right" class="mb-5" >
+									          <button id="btn-edit-ingredient" type="submit" class="btn btn-primary">
+  									          <span class="indicator-label">
+                                Submit
+                              </span>
+                              <span class="indicator-progress">
+                                  Please wait... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                              </span>
   									        </button> 
 									        </div>
 									      </form>
@@ -65,17 +109,20 @@
 									            <th></th>
 									          </tr>
 									        </thead>
-									        <tbody>
-									          <tr>
-									            <td class="">1</td>
-									            <td class="">Salt</td>
-									            <td class="">5g</td>
-									            <td class="">
-									              <a href="#" class="btn btn-link btn-sm p-1 btn-color-info btn-active-color-primary me-5 mb-2">
-									                <i class="fas fa-pen"></i>
-									              </a>
-									            </td>
-									          </tr>
+									        <tbody id="tbody">
+									          <?php foreach ($ingredients as $val): ?>
+
+    								          <tr>
+    								            <td class="" id="ing_<?= $val['id'] ?>"><?= $val['id'] ?></td>
+    								            <td class="" id="ing_name_<?= $val['id'] ?>"><?= $val['name'] ?></td>
+    								            <td class="" id="ing_qty_<?= $val['id'] ?>"><?= $val['quantity'] ?> </td>
+    								            <td class="">
+    								              <button onclick="editIngredient('<?= $val['id'] ?>')" class="btn btn-link btn-sm p-1 btn-color-info btn-active-color-primary me-5 mb-2">
+    								                <i class="fas fa-pen"></i>
+    								              </button>
+    								            </td>
+    								          </tr>
+									          <?php endforeach; ?>
 									        </tbody>
 									      </table>
 									    </div>
