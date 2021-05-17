@@ -478,7 +478,7 @@ class Database{
           `amount` VARCHAR (255) NOT NULL,
           `created_at` DATETIME NOT NULL,
           `order_id` VARCHAR NOT NULL UNIQUE,
-          `updated_at` DATETIME NOT NULL,
+          `updated_at` DATETIME,
           `deleted_at` DATETIME);", 
            
          ] ;
