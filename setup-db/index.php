@@ -6,7 +6,9 @@ if (check()) {
    header("location: ../$redir");
 } */
 
-$sales = (new Database ())->getSales();
+# $sales = (new Database ())->getSales();
 
 
 #(new Database ())->createTables();
+
+echo ROOTPATH;
