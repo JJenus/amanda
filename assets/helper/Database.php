@@ -464,15 +464,15 @@ class Database{
            $this->connect();
          }
          
-         $sql ="
+         $sql = ["
           DROP TABLE IF EXISTS `users`;
           DROP TABLE IF EXISTS `products`;
           DROP TABLE IF EXISTS `orders`;
           DROP TABLE IF EXISTS `invoices`;
           DROP TABLE IF EXISTS `ingredients`;
+          ", 
           
-          
-          CREATE TABLE `users` (
+          "CREATE TABLE `users` (
           `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
           `fullname` VARCHAR (255) NOT NULL,
           `email` VARCHAR (255) NOT NULL UNIQUE,
@@ -482,9 +482,9 @@ class Database{
           `role` VARCHAR (30) NOT NULL,
           `created_at` DATETIME NOT NULL,
           `updated_at` DATETIME NOT NULL,
-          `deleted_at` DATETIME);
+          `deleted_at` DATETIME);", 
           
-          CREATE TABLE `products` (
+          "CREATE TABLE `products` (
           `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
           `created_by` INTEGER NOT NULL,
           `name` VARCHAR (63) NOT NULL UNIQUE,
@@ -494,21 +494,21 @@ class Database{
           `quantity` INTEGER NOT NULL,
           `created_at` DATETIME NOT NULL,
           `updated_at` DATETIME NOT NULL,
-          `deleted_at` DATETIME);
+          `deleted_at` DATETIME);", 
           
-          CREATE TABLE `orders` (
+          "CREATE TABLE `orders` (
           `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
           `order_id` VARCHAR NOT NULL,
           `user_id` INTEGER NOT NULL,
-          `product_id` INTEGER (11) NOT NULL,
+          `product_id` INTEGER NOT NULL,
           `quantity` INTEGER NOT NULL,
           `total_cost` VARCHAR (63) NOT NULL,
           `status` VARCHAR (63) NOT NULL,
           `created_at` DATETIME NOT NULL,
           `updated_at` DATETIME NOT NULL,
-          `deleted_at` DATETIME);
+          `deleted_at` DATETIME);", 
           
-          CREATE TABLE `invoices` (
+          "CREATE TABLE `invoices` (
           `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
           `user_id` INTEGER NOT NULL,
           `transaction_ref` VARCHAR (255) NOT NULL UNIQUE,
@@ -516,24 +516,26 @@ class Database{
           `created_at` DATETIME NOT NULL,
           `order_id` VARCHAR NOT NULL UNIQUE,
           `updated_at` DATETIME NOT NULL,
-          `deleted_at` DATETIME);
+          `deleted_at` DATETIME);", 
           
-          CREATE TABLE `ingredients` (
+          "CREATE TABLE `ingredients` (
           `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
           `created_by` INT (11) NOT NULL,
           `name` VARCHAR (30) NOT NULL,
           `quantity` INT (11) NOT NULL,
           `created_at` DATETIME NOT NULL,
-          `updated_at` DATETIME NOT NULL);
+          `updated_at` DATETIME NOT NULL);", 
           
-          ALTER TABLE `products` ADD CONSTRAINT `products_created_by-users_id` FOREIGN KEY (`created_by`) REFERENCES `users`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+          "ALTER TABLE `products` ADD CONSTRAINT `products_created_by-users_id` FOREIGN KEY (`created_by`) REFERENCES `users`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
           ALTER TABLE `orders` ADD CONSTRAINT `orders_user_id-users_id` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
           ALTER TABLE `invoices` ADD CONSTRAINT `invoices_user_id-users_id` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-          ALTER TABLE `ingredients` ADD CONSTRAINT `ingredients_created_by-users_id` FOREIGN KEY (`created_by`) REFERENCES `users`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-           
-         " ;
+          ALTER TABLE `ingredients` ADD CONSTRAINT `ingredients_created_by-users_id` FOREIGN KEY (`created_by`) REFERENCES `users`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;"
+         ] ;
          
-         $this->connection->exec($sql);
+         foreach ($sql as $val) {
+           // code...
+           $this->connection->exec($val);
+         }
          
          echo "Tables generated successfully";
     } catch(PDOException $e) {
