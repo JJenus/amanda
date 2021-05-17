@@ -410,7 +410,7 @@ class Database{
     string $keyspace = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
   ): string {
       if ($length < 1) {
-          throw new \RangeException("Length must be a positive integer");
+          throw new \RangeException("Length must be a positive INT");
       }
       $pieces = [];
       $max = mb_strlen($keyspace, '8bit') - 1;
@@ -473,7 +473,7 @@ class Database{
           ", 
           
           "CREATE TABLE `users` (
-          `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
+          `id` INT PRIMARY KEY AUTO_INCREMENT,
           `fullname` VARCHAR (255) NOT NULL,
           `email` VARCHAR (255) NOT NULL UNIQUE,
           `password_hash` VARCHAR (255) NOT NULL,
@@ -485,32 +485,32 @@ class Database{
           `deleted_at` DATETIME);", 
           
           "CREATE TABLE `products` (
-          `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
-          `created_by` INTEGER NOT NULL,
+          `id` INT PRIMARY KEY AUTO_INCREMENT,
+          `created_by` INT NOT NULL,
           `name` VARCHAR (63) NOT NULL UNIQUE,
           `category` VARCHAR (63) NOT NULL,
           `image` TEXT NOT NULL,
           `cost` VARCHAR (63) NOT NULL,
-          `quantity` INTEGER NOT NULL,
+          `quantity` INT NOT NULL,
           `created_at` DATETIME NOT NULL,
           `updated_at` DATETIME NOT NULL,
           `deleted_at` DATETIME);", 
           
           "CREATE TABLE `orders` (
-          `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
-          `user_id` INTEGER NOT NULL,
+          `id` INT PRIMARY KEY AUTO_INCREMENT,
+          `user_id` INT NOT NULL,
+          `product_id` INT NOT NULL,
           `order_id` VARCHAR NOT NULL,
-          `product_id` INTEGER NOT NULL,
           `total_cost` VARCHAR (63) NOT NULL,
-          `quantity` INTEGER NOT NULL,
+          `quantity` INT NOT NULL,
           `status` VARCHAR (63) NOT NULL,
           `created_at` DATETIME NOT NULL,
           `updated_at` DATETIME NOT NULL,
           `deleted_at` DATETIME);", 
           
           "CREATE TABLE `invoices` (
-          `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
-          `user_id` INTEGER NOT NULL,
+          `id` INT PRIMARY KEY AUTO_INCREMENT,
+          `user_id` INT NOT NULL,
           `transaction_ref` VARCHAR (255) NOT NULL UNIQUE,
           `amount` VARCHAR (255) NOT NULL,
           `created_at` DATETIME NOT NULL,
@@ -519,7 +519,7 @@ class Database{
           `deleted_at` DATETIME);", 
           
           "CREATE TABLE `ingredients` (
-          `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
+          `id` INT PRIMARY KEY AUTO_INCREMENT,
           `created_by` INT (11) NOT NULL,
           `name` VARCHAR (30) NOT NULL,
           `quantity` INT (11) NOT NULL,
