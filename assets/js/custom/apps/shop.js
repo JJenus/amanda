@@ -28,47 +28,7 @@ var KTAppShop = function () {
     
     
     var _products = [];
-    var _cart = [
-      {
-        id: 1,
-        image: '../assets/media/svg/avatars/035-boy-15.svg', 
-        type: 'food', 
-        quantity: 8,
-        qty: 1,
-        name: "Beans",
-        cost: 300
-      }, 
-      {
-        id: 2,
-        image: '../assets/media/svg/avatars/035-boy-15.svg', 
-        type: 'item', 
-        quantity: 3,
-        qty: 1,
-        name: "Champaign",
-        cost: 210
-      }, 
-      {
-        id: 3,
-        image: '../assets/media/svg/avatars/035-boy-15.svg', 
-        type: 'snack', 
-        quantity: 5,
-        qty: 1,
-        name: "Oreo",
-        cost: 150
-      } 
-    ];
-    
-    var _loadProducts = function (array) {
-      array.forEach(product => {    
-        document.getElementById(product.type).innerHTML = `
-        <div>
-          <img src="${video.img}"/>
-          <h4>${video.title}</h4>
-          <p>${video.description}</p>
-        </div>
-      `;
-      });
-    }
+    var _cart = [];
     
     var _updateCart = function (array) {
       $('#cart').empty();
@@ -89,7 +49,7 @@ var KTAppShop = function () {
 							  ${product.name}
 							</a>
 							<a class="text-gray-600 text-sm text-hover-success fw-bolder fs-6 mb-1">
-							   $${product.cost}
+							   ${CURRENCY} ${product.cost}
 							</a>
 							<button type="button" data-id="${product.id}" class="btn remove_from_cart text-danger btn-active-light-danger fw-bolder px-1 p-0">
 							  remove
@@ -127,12 +87,29 @@ var KTAppShop = function () {
       `;
       
       });
+      
+      computeTotal();
+      $("#cart-size").text(_cart.length);
+    }
+    
+    var _total = 0
+    
+    var computeTotal = function(){
+      _total = 0;
+      for (var i = 0; i < _cart.length; i++) {
+         _total += _cart[i].cost * _cart[i].qty 
+      }
+      
+      $("#cart-total-cost").text(_total)
+      $("#pay_amount").val(_total)
+      
     }
     
     var _alter_qty = function(id, n){
       for (var i = 0; i < _cart.length; i++) {
           if (_cart[i].id === id) {
             _cart[i].qty = n;
+            computeTotal()
             break;
           }
       }
@@ -140,6 +117,70 @@ var KTAppShop = function () {
 
     // Private funcions
     var _init = function () {
+      
+      $("#payment_form").submit(function(e){
+        e.preventDefault();
+        if (! $("#payment_form")[0].checkValidity() ) {
+          return ;
+        }
+        
+        $("#pay_btn").attr("data-kt-indicator", "on");
+        
+        console.log($("#payment_form").serializeArray ())
+        
+        var f_data = [
+          {
+            name: "total", 
+            value: _total
+          }, 
+          {
+            name: "cart", 
+            value: JSON.stringify(_cart)
+          }
+        ];
+        
+       console.log(f_data)
+        
+        $.ajax({
+          url: $("#payment_form").attr("action"), 
+          method: "POST",
+          data: f_data, 
+          success: function(res){
+            console.log(res);
+            if(!res.status){
+              notify("error", res.report)
+              return ;
+            }
+            notify("success", res.report)
+            _cart = [];
+            $("#payment_form")[0].reset();
+            $("#close_payment_form").click()
+            $('#cart').empty();
+          },
+          error: (err)=>{
+            console.log(err)
+            notify("error", "Check your connection and try again.")
+          } 
+        }).always(()=>{
+          $("#pay_btn").attr("data-kt-indicator", null);
+        }) 
+      })
+      
+      $('body').on('click', '.add_to_cart', function(){
+        var data = $(this).data('product');
+        var saved = false;
+        for (var i = 0; i < _cart.length; i++) {
+          if (_cart[i].id === data.id) {
+            saved = true;
+            break;
+          }
+         }
+         
+         if(!saved){
+            _cart.push(data)
+            _updateCart(_cart)
+         } 
+      })
       
       $('body').on('click', '.add_quantity', function(){
         var id = $(this).data('id');

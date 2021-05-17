@@ -65,7 +65,7 @@
 								  <span class="fas fa-shopping-cart fs-2"></span>
 								  <!--begin::Dropdown-->
 								  <sub class="">
-									<span style="font-size: 1.3em;" class="badge mt-3 fw-bolder badge-circle badge-light-danger">5</span>
+									<span id="cart-size" style="font-size: 1.3em;" class="badge mt-3 fw-bolder badge-circle badge-light-danger">5</span>
 								  </sub>
 									<!--begin::Menu-->
 									<!--end::Svg Icon-->

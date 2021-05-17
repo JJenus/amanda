@@ -33,7 +33,7 @@
 									            </div>
 									            <img id="product-image" class="w-100 d-none" src="<?= base_url ?>/assets/img/plus.png">
 									          </div>
-									          <input id="product-file" onchange="readURL(this)" type="file" name="img" class="d-none fs-3x">
+									          <input id="product-file" onchange="readURL(this)" type="file" name="image" class="d-none fs-3x">
 									        </div>
 									        <div class="fv-row mb-5">
 									          <label class="form-label fs-6 fw-bolder" for="role-select">Category</label>
@@ -53,8 +53,8 @@
 									          </div>
 									        </div>
 									        <div class="fv-row mb-5">
-									          <label class="form-label fs-6 fw-bolder" for="product-quantity">Available Quantity</label>
-									          <input value="" id="email-add-staff" required class="form-control" name="quantity" type="number" placeholder="numbers only e.g. 23" >
+									          <label class="form-label fs-6 fw-bolder" for="product-qty">Available Quantity</label>
+									          <input id="product-qty" required class="form-control" name="quantity" type="number" placeholder="numbers only e.g. 23" >
 									          <div class="invalid-feedback" id="product-quantity-feedback"></div>
 									        </div>
 									        <div class="fv-row mb-5">

@@ -15,8 +15,119 @@ class Database{
    
   }
   
+  public function getSales(){
+    try {
+      $sql = "SELECT SUM(quantity) as quantity, SUM(total_cost) as amount, product_id from orders GROUP BY product_id";
+      $res = $this->connection->query($sql);
+      $arr = [];
+      
+      foreach ($res as $row){
+        $id = $row['product_id'];
+        
+        $sql = "SELECT name, image, category FROM products WHERE id = '$id'";
+        $res = $this->connection->query($sql);
+        $rw = $res->fetch();
+        $arr[] = [
+          "id" => $row["product_id"], 
+          "amount" => $row["amount"], 
+          "quantity" => $row["quantity"], 
+          "image" => $rw["image"], 
+          "name" => $rw["name"], 
+          "category" => $rw["category"], 
+        ];
+        
+      } 
+      
+      return $arr;
+    } catch (PDOException $err) {
+      exit($err);
+    }
+  } 
+  
+  
+  public function getInvoices(){
+    try {
+      $sql = "SELECT * FROM invoices ORDER BY created_at DESC";
+      $res = $this->connection->query($sql);
+      $arr = [];
+      
+      foreach ($res as $row){
+        $arr[] = [
+          "id" => $row['id'], 
+          "user_id" => $row['user_id'], 
+          "amount" => $row['amount'], 
+          "order_id" => $row['order_id'], 
+          "transaction_ref" => $row['transaction_ref'], 
+          "time" => $row['created_at'], 
+        ];
+      } 
+      
+      return $arr;
+    } catch (PDOException $err) {
+      exit($err);
+    }
+  } 
+  
+  public function makePayment(){
+    
+    $amount = $_POST['total'];
+    $order_id = $this->random_str(10);
+    $ref = "T";
+    
+    for ($i = 0; $i < 4; $i++) {
+       $ref .= "-". $this->random_str(4);
+    }
+    
+    
+      try {
+        $sql = "INSERT INTO invoices(user_id, transaction_ref, order_id, amount, created_at, updated_at) VALUES(?,?,?,?, date('now'), date('now') )";
+        $pstmt = $this->connection->prepare($sql);
+        $rows = $pstmt->execute([
+         user()->id, $ref, $order_id, $amount
+        ]);
+        
+        if($rows){
+          return [
+            "status" => true, 
+            "id" => $order_id
+          ];
+        }else return "unknown error occurred";
+      } catch(PDOException $e) {
+        return $e->getMessage();//Remove or change message in production code
+      }
+    
+  }
+  
+  public function createOrder(){
+    $paid = $this->makePayment();
+    
+    $products = json_decode($_POST['cart'], true) ;
+    
+    if (isset($paid["id"])) {
+      try {
+        $sql = "INSERT INTO orders(user_id, order_id, product_id, total_cost, quantity, status, created_at, updated_at) VALUES(?,?,?,?,?,?, date('now'), date('now') )";
+        
+        foreach ($products as $product) {
+          $cost = $product['qty'] * $product['cost'];
+          $pstmt = $this->connection->prepare($sql);
+          $rows = $pstmt->execute([
+            user()->id, $paid["id"], $product['id'], $cost, $product['qty'], "paid"
+          ]); 
+        }
+        
+        
+        return [
+          "id" => $paid["id"]
+        ];
+        
+      } catch(PDOException $e) {
+        return $e->getMessage();//Remove or change message in production code
+      }
+    }else return $paid;
+  }
+  
   public function saveFile($name){
-    $target_dir = base_url."/products/";
+    $target_dir = ROOTPATH."/products/";
     $target_file = $target_dir . basename($_FILES[$name]["name"]);
     $uploadOk = 1;
     $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
@@ -31,7 +142,7 @@ class Database{
             $msg = "Sorry, file already exists.";
             $uploadOk = 0;
         } // Check file size
-        else if ($_FILES["fileToUpload"]["size"] > 5000000) {
+        else if ($_FILES[$name]["size"] > 10000000) {
             $msg = "Sorry, your file is too large.";
             $uploadOk = 0;
         } // Check if $uploadOk is set to 0 by an error
@@ -39,8 +150,8 @@ class Database{
             $msg = "Sorry, your file was not uploaded.";
             // if everything is ok, try to upload file
         } else {
-            if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-                $msg = "The file " . basename($_FILES["fileToUpload"]["name"]) . " has been uploaded.";
+            if (move_uploaded_file($_FILES[$name]["tmp_name"], $target_file)) {
+                $msg = "The file " . basename($_FILES[$name]["name"]) . " has been uploaded.";
             }
         }
         
@@ -54,7 +165,7 @@ class Database{
     return [
         "status" => true, 
         "report" => $msg, 
-        "file" => $target_file
+        "file" => base_url."/products/".$_FILES[$name]["name"]
     ];
   }
   
@@ -73,7 +184,7 @@ class Database{
     $qty = $_POST["quantity"];
     if ($img) {
       try {
-        $sql = "INSERT INTO products(created_by, name, category, cost, quantity, image, created_at, updated_at) VALUES(?,?,?,?,?, date('now'), date('now') )";
+        $sql = "INSERT INTO products(created_by, name, category, cost, quantity, image, created_at, updated_at) VALUES(?,?,?,?,?,?, date('now'), date('now') )";
         $pstmt = $this->connection->prepare($sql);
         $rows = $pstmt->execute([
          user()->id, $name, $cat, $cost, $qty, $img
@@ -88,9 +199,59 @@ class Database{
     }else return "file upload failed";
   }
   
+  public function getProducts(){
+    try {
+      $sql = "SELECT * FROM products ORDER BY created_at DESC";
+      $res = $this->connection->query($sql);
+      $arr = [];
+      
+      foreach ($res as $row){
+        $arr[] = [
+          "id" => $row['id'], 
+          "name" => $row['name'], 
+          "image" => $row['image'], 
+          "category" => $row['category'], 
+          "cost" => $row['cost'], 
+          "time" => $row['created_at'], 
+          "quantity" => $row['quantity'], 
+          "creator" => $row['created_by']
+        ];
+      } 
+      
+      return $arr;
+    } catch (PDOException $err) {
+      exit($err);
+    }
+  }
+  
+  public function getCategory($cat){
+    try {
+      $sql = "SELECT * FROM products WHERE category='$cat'";
+      $res = $this->connection->query($sql);
+      $arr = [];
+      
+      foreach ($res as $row){
+        $arr[] = [
+          "id" => intval($row['id']), 
+          "qty" => 1, 
+          "name" => $row['name'], 
+          "image" => $row['image'], 
+          "category" => $row['category'], 
+          "cost" => floatval($row['cost']), 
+          "time" => $row['created_at'], 
+          "quantity" => $row['quantity'], 
+        ];
+      } 
+      
+      return $arr;
+    } catch (PDOException $err) {
+      exit($err);
+    }
+  }
+  
   public function getIngredients(){
     try {
-      $sql = "SELECT * FROM ingredients";
+      $sql = "SELECT * FROM ingredients ORDER BY created_at DESC";
       $res = $this->connection->query($sql);
       $arr = [];
       
@@ -150,7 +311,23 @@ class Database{
   } 
   
   public function getStaffs(){
-    $sql = "SELECT * FROM users where role != 'customer' AND role != 'admin'";
+    $sql = "SELECT * FROM users where role != 'customer' AND role != 'admin' ORDER BY created_at DESC";
+    $result = $this->connection->query($sql);
+    $staffs = [];
+    foreach ($result as $row) {
+      $staffs[] = [
+        "id" => $row['id'], 
+        "name" => $row['fullname'], 
+        "email" => $row['email'], 
+        "role" => $row['role'],
+        "created_at" => $row['created_at'],
+      ];
+    }
+    return $staffs ;
+  }
+  
+  public function getCustomers(){
+    $sql = "SELECT * FROM users where role = 'customer' ORDER BY created_at DESC";
     $result = $this->connection->query($sql);
     $staffs = [];
     foreach ($result as $row) {
@@ -218,6 +395,21 @@ class Database{
       }
     }
   } 
+  
+  public function random_str(
+    int $length = 64,
+    string $keyspace = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  ): string {
+      if ($length < 1) {
+          throw new \RangeException("Length must be a positive integer");
+      }
+      $pieces = [];
+      $max = mb_strlen($keyspace, '8bit') - 1;
+      for ($i = 0; $i < $length; ++$i) {
+          $pieces []= $keyspace[random_int(0, $max)];
+      }
+      return implode('', $pieces);
+  }
                                                                                                                                  
   public function isRegisteredEmail($email){
     $sql='SELECT * FROM users WHERE email=?';
@@ -310,7 +502,7 @@ class Database{
           [id] INTEGER PRIMARY KEY AUTOINCREMENT,
           [user_id] INTEGER NOT NULL,
           [transaction_ref] VARCHAR (255) NOT NULL UNIQUE,
-          [amount] VARCHAR (255) NOT NULL UNIQUE,
+          [amount] VARCHAR (255) NOT NULL ,
           [created_at] DATETIME NOT NULL,
           [order_id] VARCHAR NOT NULL UNIQUE,
           [updated_at] DATETIME  NOT NULL,

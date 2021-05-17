@@ -24,13 +24,27 @@
 		<?php if ($page === "home"): ?>
 		<!--begin::Page Custom Javascript(used by this page)-->
 		<script src="<?= base_url() ?>/assets/js/custom/apps/shop.js"></script>
+		<script type="text/javascript" charset="utf-8">
+		  Inputmask({
+          "mask" : "9999 9999 9999 9999"
+      }).mask("#card_number");
+       
+		  Inputmask({
+          "mask" : "999"
+      }).mask("#card_cvv");
+       
+		  Inputmask({
+          "mask" : "99/99"
+      }).mask("#card_exp");
+      
+       
+		</script>
 		<!--end::Page Custom Javascript-->
 		<?php endif; ?>
 		
 		<?php if ($page === "dashboard"): ?>
 		<!--begin::Page Custom Javascript(used by this page)-->
-		<script src="assets/js/custom/widgets.js"></script>
-		
+	
 		<?php endif; ?>
 		
 		<?php if ($page === "auth"): ?>
@@ -40,6 +54,36 @@
 		<?php endif; ?>
 		
 		<script>
+		var CURRENCY = "<?= CURRENCY ?>";
+		
+  		function notify(type, msg){
+  		  if(type == 'success'){
+  		    swal.fire({
+            text: msg,
+            icon: "success",
+            buttonsStyling: false,
+            confirmButtonText: "Ok",
+            customClass: {
+    					confirmButton: "btn fw-bold btn-light-primary"
+    				}
+          }).then(function() {
+    					KTUtil.scrollTop();
+    			});
+  		  }else{
+  		    swal.fire({
+            text: msg,
+            icon: "error",
+            buttonsStyling: false,
+            confirmButtonText: "Ok",
+            customClass: {
+    					confirmButton: "btn fw-bold btn-light-primary"
+    				}
+          }).then(function() {
+    					KTUtil.scrollTop();
+    			});
+  		  }
+  		}
+		
 		  (function () {
         'use strict'
       
@@ -172,9 +216,15 @@
               data: form, 
               success: function(res){
                 console.log(res);
+                if(!res.status){
+                  notify("error", res.report)
+                  return ;
+                }
+                notify("success", res.report)
               },
               error: (err)=>{
                 console.log(err)
+                notify("error", "Check your connection and try again.")
               } 
             }).always(()=>{
               $("#btn-product").attr("data-kt-indicator", null);
@@ -228,15 +278,18 @@
                 console.log(res);
                 if(!res.status){
                   console.log(res.report)
+                  notify("error", res.report)
                   return false;
                 }
                 var data = res.data
                 $("#ing_"+data.id).text(data.id)
                 $("#ing_name_"+data.id).text(data.name)
                 $("#ing_qty_"+data.id).text(data.qty)
+                notify("success", res.report)
               },
               error: (err)=>{
                 console.log(err)
+                notify("error", "Check your connection and try again")
               } 
             }).always(()=>{
               $("#btn-edit-ingredient").attr("data-kt-indicator", null);
@@ -262,6 +315,7 @@
                 console.log(res);
                 if(!res.status){
                   console.log(res.report)
+                  notify("error", res.report)
                   return false;
                 }
                 var data = res.data
@@ -280,9 +334,10 @@
                 `
                 
                 $("#tbody").append(temp);
-                
+                notify("success", res.report)
               },
               error: (err)=>{
+                notify("error", "Check your connection and try again")
                 console.log(err)
               } 
             }).always(()=>{
