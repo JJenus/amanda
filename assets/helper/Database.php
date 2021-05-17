@@ -465,70 +465,72 @@ class Database{
          }
          
          $sql ="
-          DROP TABLE IF EXISTS [users];
-          DROP TABLE IF EXISTS [products];
-          DROP TABLE IF EXISTS [orders];
-          DROP TABLE IF EXISTS [invoices];
-          DROP TABLE IF EXISTS [ingredients];
+          DROP TABLE IF EXISTS `users`;
+          DROP TABLE IF EXISTS `products`;
+          DROP TABLE IF EXISTS `orders`;
+          DROP TABLE IF EXISTS `invoices`;
+          DROP TABLE IF EXISTS `ingredients`;
           
-          CREATE TABLE [users] (
-          [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-          [fullname] VARCHAR (255) NOT NULL,
-          [email] VARCHAR (255) NOT NULL UNIQUE,
-          [password_hash] VARCHAR (255) NOT NULL,
-          [reset_hash] VARCHAR (255) NULL,
-          [reset_at] VARCHAR (255) NULL,
-          [role] VARCHAR (30) NOT NULL,
-          [created_at] DATETIME NOT NULL,
-          [updated_at] DATETIME  NOT NULL,
-          [deleted_at] DATETIME);
           
-          CREATE TABLE [products] (
-          [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-          [created_by] INTEGER NOT NULL,
-          [name] VARCHAR (63) NOT NULL UNIQUE,
-          [category] VARCHAR (63) NOT NULL,
-          [image] TEXT NOT NULL,
-          [cost] VARCHAR (63) NOT NULL,
-          [quantity] INTEGER NOT NULL,
-          [created_at] DATETIME NOT NULL,
-          [updated_at] DATETIME  NOT NULL,
-          [deleted_at] DATETIME,
-          FOREIGN KEY([created_by]) REFERENCES [users]([id]) ON DELETE NO ACTION ON UPDATE NO ACTION);
+          CREATE TABLE `users` (
+          `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
+          `fullname` VARCHAR (255) NOT NULL,
+          `email` VARCHAR (255) NOT NULL UNIQUE,
+          `password_hash` VARCHAR (255) NOT NULL,
+          `reset_hash` VARCHAR (255),
+          `reset_at` VARCHAR (255),
+          `role` VARCHAR (30) NOT NULL,
+          `created_at` DATETIME NOT NULL,
+          `updated_at` DATETIME NOT NULL,
+          `deleted_at` DATETIME);
           
-          CREATE TABLE [orders] (
-          [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-          [order_id] VARCHAR NOT NULL,
-          [user_id] INTEGER NOT NULL,
-          [product_id] INTEGER NOT NULL,
-          [quantity] INTEGER NOT NULL,
-          [total_cost] VARCHAR (63) NOT NULL,
-          [status] VARCHAR (63) NOT NULL,
-          [created_at] DATETIME NOT NULL,
-          [updated_at] DATETIME  NOT NULL,
-          [deleted_at] DATETIME,
-          FOREIGN KEY([user_id]) REFERENCES [users]([id]) ON DELETE NO ACTION ON UPDATE NO ACTION);
+          CREATE TABLE `products` (
+          `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
+          `created_by` INTEGER NOT NULL,
+          `name` VARCHAR (63) NOT NULL UNIQUE,
+          `category` VARCHAR (63) NOT NULL,
+          `image` TEXT NOT NULL,
+          `cost` VARCHAR (63) NOT NULL,
+          `quantity` INTEGER NOT NULL,
+          `created_at` DATETIME NOT NULL,
+          `updated_at` DATETIME NOT NULL,
+          `deleted_at` DATETIME);
           
-          CREATE TABLE [invoices] (
-          [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-          [user_id] INTEGER NOT NULL,
-          [transaction_ref] VARCHAR (255) NOT NULL UNIQUE,
-          [amount] VARCHAR (255) NOT NULL ,
-          [created_at] DATETIME NOT NULL,
-          [order_id] VARCHAR NOT NULL UNIQUE,
-          [updated_at] DATETIME  NOT NULL,
-          [deleted_at] DATETIME,
-          FOREIGN KEY([user_id]) REFERENCES [users]([id]) ON DELETE NO ACTION ON UPDATE NO ACTION);
+          CREATE TABLE `orders` (
+          `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
+          `order_id` VARCHAR NOT NULL,
+          `user_id` INTEGER NOT NULL,
+          `product_id` INTEGER NOT NULL,
+          `quantity` INTEGER NOT NULL,
+          `total_cost` VARCHAR (63) NOT NULL,
+          `status` VARCHAR (63) NOT NULL,
+          `created_at` DATETIME NOT NULL,
+          `updated_at` DATETIME NOT NULL,
+          `deleted_at` DATETIME);
           
-          CREATE TABLE [ingredients] (
-          [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-          [created_by] INT (11) NOT NULL,
-          [name] VARCHAR (30) NOT NULL,
-          [quantity] INT (11) NOT NULL,
-          [created_at] DATETIME NOT NULL,
-          [updated_at] DATETIME NOT NULL,
-          FOREIGN KEY([created_by]) REFERENCES [users]([id]));
-
+          CREATE TABLE `invoices` (
+          `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
+          `user_id` INTEGER NOT NULL,
+          `transaction_ref` VARCHAR (255) NOT NULL UNIQUE,
+          `amount` VARCHAR (255) NOT NULL,
+          `created_at` DATETIME NOT NULL,
+          `order_id` VARCHAR NOT NULL UNIQUE,
+          `updated_at` DATETIME NOT NULL,
+          `deleted_at` DATETIME);
+          
+          CREATE TABLE `ingredients` (
+          `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
+          `created_by` INT (11) NOT NULL,
+          `name` VARCHAR (30) NOT NULL,
+          `quantity` INT (11) NOT NULL,
+          `created_at` DATETIME NOT NULL,
+          `updated_at` DATETIME NOT NULL);
+          
+          ALTER TABLE `products` ADD CONSTRAINT `products_created_by-users_id` FOREIGN KEY (`created_by`) REFERENCES `users`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+          ALTER TABLE `orders` ADD CONSTRAINT `orders_user_id-users_id` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+          ALTER TABLE `invoices` ADD CONSTRAINT `invoices_user_id-users_id` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+          ALTER TABLE `ingredients` ADD CONSTRAINT `ingredients_created_by-users_id` FOREIGN KEY (`created_by`) REFERENCES `users`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+           
          " ;
          
          $this->connection->exec($sql);
