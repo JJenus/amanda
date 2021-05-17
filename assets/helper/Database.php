@@ -472,12 +472,12 @@ class Database{
           `id` INT PRIMARY KEY AUTO_INCREMENT,
           `user_id` INT NOT NULL,
           `product_id` INT NOT NULL,
-          `order_id` VARCHAR NOT NULL,
-          `total_cost` VARCHAR NOT NULL,
-          `quantity` INT NOT NULL,
-          `status` VARCHAR NOT NULL,
-          `created_at` timestamp NOT NULL,
-          `updated_at` timestamp NOT NULL,
+          `order_id` VARCHAR,
+          `total_cost` VARCHAR,
+          `quantity` INT,
+          `status` VARCHAR ,
+          `created_at` timestamp,
+          `updated_at` timestamp,
           `deleted_at` timestamp);", 
          ] ;
          
