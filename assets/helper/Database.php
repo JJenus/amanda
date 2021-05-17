@@ -471,7 +471,7 @@ class Database{
            "CREATE TABLE `orders` (
           `id` INT PRIMARY KEY AUTO_INCREMENT,
           `user_id` INT NOT NULL,
-          `product_id` INT NOT NULL,
+          `product_id` INT NOT NULL
           );",
          
          ] ;
