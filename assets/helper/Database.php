@@ -466,19 +466,20 @@ class Database{
          }
          
          $sql = ["
-          DROP TABLE IF EXISTS `invoices`;
+          DROP TABLE IF EXISTS `orders`;
           ", 
-           
-          "
-          CREATE TABLE `invoices` (
+           "CREATE TABLE `orders` (
           `id` INT PRIMARY KEY AUTO_INCREMENT,
           `user_id` INT NOT NULL,
-          `transaction_ref` VARCHAR (255) NOT NULL UNIQUE,
-          `amount` VARCHAR (255) NOT NULL,
-          `order_id` VARCHAR NOT NULL UNIQUE,
+          `product_id` INT NOT NULL,
+          `order_id` VARCHAR NOT NULL,
+          `total_cost` VARCHAR NOT NULL,
+          `quantity` INT NOT NULL,
+          `status` VARCHAR NOT NULL,
           `created_at` DATETIME NOT NULL,
-          `updated_at` DATETIME);
-          ",
+          `updated_at` DATETIME NOT NULL,
+          `deleted_at` DATETIME);",
+         
          ] ;
          
          foreach ($sql as $val) {
