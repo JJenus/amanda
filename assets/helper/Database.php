@@ -491,14 +491,6 @@ class Database{
           `order_id` VARCHAR NOT NULL UNIQUE,
           `updated_at` DATETIME NOT NULL,
           `deleted_at` DATETIME);", 
-          
-          "CREATE TABLE `ingredients` (
-          `id` INT PRIMARY KEY AUTO_INCREMENT,
-          `created_by` INT (11) NOT NULL,
-          `name` VARCHAR (30) NOT NULL,
-          `quantity` INT (11) NOT NULL,
-          `created_at` DATETIME NOT NULL,
-          `updated_at` DATETIME NOT NULL);", 
            
          ] ;
          
