@@ -500,7 +500,7 @@ class Database{
           `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
           `order_id` VARCHAR NOT NULL,
           `user_id` INTEGER NOT NULL,
-          `product_id` INTEGER NOT NULL,
+          `product_id` INTEGER (11) NOT NULL,
           `quantity` INTEGER NOT NULL,
           `total_cost` VARCHAR (63) NOT NULL,
           `status` VARCHAR (63) NOT NULL,
