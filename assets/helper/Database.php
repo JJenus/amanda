@@ -467,14 +467,14 @@ class Database{
          
          $sql = ["
           DROP TABLE IF EXISTS `ingredients`;
-          ",  "CREATE TABLE `ingredients` (
+          ", 
+          "CREATE TABLE `ingredients` (
           `id` INT PRIMARY KEY AUTO_INCREMENT,
           `created_by` INT (11) NOT NULL,
           `name` VARCHAR (30) NOT NULL,
           `quantity` INT (11) NOT NULL,
-          `created_at` timestamp NOT NULL,
-          `updated_at` timestamp NOT NULL);", 
-           ,
+          `created_at` timestamp,
+          `updated_at` timestamp);", 
          
          ] ;
          
