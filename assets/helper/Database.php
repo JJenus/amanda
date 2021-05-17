@@ -498,8 +498,8 @@ class Database{
           
           "CREATE TABLE `orders` (
           `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
-          `order_id` VARCHAR NOT NULL,
           `user_id` INTEGER NOT NULL,
+          `order_id` VARCHAR NOT NULL,
           `product_id` INTEGER NOT NULL,
           `quantity` INTEGER NOT NULL,
           `total_cost` VARCHAR (63) NOT NULL,
