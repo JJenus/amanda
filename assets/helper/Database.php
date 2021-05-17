@@ -445,9 +445,6 @@ class Database{
       $this->connection->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );//Error Handling
     } 
     
-    if ($this->connection ) {
-      die("connected");
-    }
     return $this->connection;
   }
   
@@ -500,17 +497,7 @@ class Database{
           `updated_at` DATETIME NOT NULL,
           `deleted_at` DATETIME);", 
           
-          "CREATE TABLE `orders` (
-          `id` INT PRIMARY KEY AUTO_INCREMENT,
-          `user_id` INT NOT NULL,
-          `product_id` INT NOT NULL,
-          `order_id` VARCHAR NOT NULL,
-          `total_cost` VARCHAR (63) NOT NULL,
-          `quantity` INT NOT NULL,
-          `status` VARCHAR (63) NOT NULL,
-          `created_at` DATETIME NOT NULL,
-          `updated_at` DATETIME NOT NULL,
-          `deleted_at` DATETIME);", 
+          
           
           "CREATE TABLE `invoices` (
           `id` INT PRIMARY KEY AUTO_INCREMENT,
@@ -531,7 +518,7 @@ class Database{
           `updated_at` DATETIME NOT NULL);", 
           
           "ALTER TABLE `products` ADD CONSTRAINT `products_created_by-users_id` FOREIGN KEY (`created_by`) REFERENCES `users`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-          ALTER TABLE `orders` ADD CONSTRAINT `orders_user_id-users_id` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+          
           ALTER TABLE `invoices` ADD CONSTRAINT `invoices_user_id-users_id` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
           ALTER TABLE `ingredients` ADD CONSTRAINT `ingredients_created_by-users_id` FOREIGN KEY (`created_by`) REFERENCES `users`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;"
          ] ;
