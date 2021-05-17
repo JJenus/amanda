@@ -466,16 +466,19 @@ class Database{
          }
          
          $sql = ["
-          DROP TABLE IF EXISTS `ingredients`;
+          DROP TABLE IF EXISTS `orders`;
           ", 
-          "CREATE TABLE `ingredients` (
+          "CREATE TABLE `orders` (
           `id` INT PRIMARY KEY AUTO_INCREMENT,
-          `created_by` INT (11) NOT NULL,
-          `name` VARCHAR (30) NOT NULL,
-          `quantity` INT (11) NOT NULL,
-          `created_at` timestamp,
-          `updated_at` timestamp);", 
-         
+          `user_id` INT NOT NULL,
+          `product_id` INT NOT NULL,
+          `order_id` VARCHAR NOT NULL,
+          `total_cost` VARCHAR NOT NULL,
+          `quantity` INT NOT NULL,
+          `status` VARCHAR NOT NULL,
+          `created_at` timestamp NOT NULL,
+          `updated_at` timestamp NOT NULL,
+          `deleted_at` timestamp);", 
          ] ;
          
          foreach ($sql as $val) {
