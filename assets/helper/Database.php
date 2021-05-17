@@ -498,37 +498,13 @@ class Database{
           `deleted_at` DATETIME);", 
           
           
-          
-          "CREATE TABLE `invoices` (
-          `id` INT PRIMARY KEY AUTO_INCREMENT,
-          `user_id` INT NOT NULL,
-          `transaction_ref` VARCHAR (255) NOT NULL UNIQUE,
-          `amount` VARCHAR (255) NOT NULL,
-          `created_at` DATETIME NOT NULL,
-          `order_id` VARCHAR NOT NULL UNIQUE,
-          `updated_at` DATETIME NOT NULL,
-          `deleted_at` DATETIME);", 
-          
-          "CREATE TABLE `ingredients` (
-          `id` INT PRIMARY KEY AUTO_INCREMENT,
-          `created_by` INT (11) NOT NULL,
-          `name` VARCHAR (30) NOT NULL,
-          `quantity` INT (11) NOT NULL,
-          `created_at` DATETIME NOT NULL,
-          `updated_at` DATETIME NOT NULL);", 
-          
           "ALTER TABLE `products` ADD CONSTRAINT `products_created_by-users_id` FOREIGN KEY (`created_by`) REFERENCES `users`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-          
-          ALTER TABLE `invoices` ADD CONSTRAINT `invoices_user_id-users_id` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-          ALTER TABLE `ingredients` ADD CONSTRAINT `ingredients_created_by-users_id` FOREIGN KEY (`created_by`) REFERENCES `users`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;"
+          "     
          ] ;
          
          foreach ($sql as $val) {
-           $this->connect();
            // code...
            $this->connection->exec($val);
-           $this->connection = null;
-           sleep(3);
          }
          
          echo "Tables generated successfully";
@@ -538,7 +514,7 @@ class Database{
     }
     
   }
-  
+                                                                                                                                            
 }
 
 
