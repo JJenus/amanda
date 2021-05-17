@@ -470,17 +470,6 @@ class Database{
           DROP TABLE IF EXISTS `invoices`;
           DROP TABLE IF EXISTS `ingredients`;
           ", 
-          "CREATE TABLE `orders` (
-          `id` INT PRIMARY KEY AUTO_INCREMENT,
-          `user_id` INT NOT NULL,
-          `product_id` INT NOT NULL,
-          `order_id` VARCHAR NOT NULL,
-          `total_cost` VARCHAR (63) NOT NULL,
-          `quantity` INT NOT NULL,
-          `status` VARCHAR (63) NOT NULL,
-          `created_at` DATETIME NOT NULL,
-          `updated_at` DATETIME NOT NULL,
-          `deleted_at` DATETIME);", 
            
           "CREATE TABLE `invoices` (
           `id` INT PRIMARY KEY AUTO_INCREMENT,
