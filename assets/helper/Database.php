@@ -444,6 +444,10 @@ class Database{
       # $this->connection = new PDO($this->sql3) or exit("Connection error");
       $this->connection->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );//Error Handling
     } 
+    
+    if ($this->connection ) {
+      die("connected");
+    }
     return $this->connection;
   }
   
