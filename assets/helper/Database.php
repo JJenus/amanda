@@ -3,14 +3,23 @@
 class Database{
   private $db_name = "shop";
   private $user;
-  private $password;
+  private $pass;
   private $dsn; // mysql 
   private $sql3; // sqlite
   private $connection;
                                                                                          
   public function __construct(){
-   #$this->dsn="mysql:host=localhost;dbname=$database"; // mysql 
-   $this->sql3 ="sqlite:".WRITEPATH. $this->db_name.".sqlite" ; // sqlite 
+   $url = parse_url(getenv("CLEARDB_DATABASE_URL"));
+
+    $server = $url["host"];
+    $this->user = $url["user"];
+    $this->pass = $url["pass"];
+    $db = substr($url["path"], 1);
+    
+    $this->dsn = "mysql:host=$server;dbname=$db"; // mysql 
+
+     # $this->sql3 ="sqlite:".WRITEPATH. $this->db_name.".sqlite" ; // sqlite 
+     
    $this->connect();
    
   }
@@ -430,7 +439,9 @@ class Database{
   
   public function connect(){
     if(!$this->connection){
-      $this->connection = new PDO($this->sql3) or exit("Connection error");
+      $this->connection = new PDO($this->dsn, $this->user, $this->pass) or exit("Connection error");
+      
+      # $this->connection = new PDO($this->sql3) or exit("Connection error");
       $this->connection->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );//Error Handling
     } 
     return $this->connection;

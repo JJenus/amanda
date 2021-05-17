@@ -9,6 +9,6 @@ if (check()) {
 # $sales = (new Database ())->getSales();
 
 
-#(new Database ())->createTables();
+(new Database ())->createTables();
 
-echo ROOTPATH;
+# echo ROOTPATH;
