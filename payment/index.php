@@ -1,6 +1,11 @@
 <?php 
 if (!isset($_POST["cart"])) {
-  die("ACCESS DENIED");
+  header('Content-Type: application/json');
+  echo json_encode([
+    "status" => false, 
+    "report" => "ACCESS DENIED"
+  ]);
+  exit();
 }
 require "../assets/helper/bootstrap.php";
 

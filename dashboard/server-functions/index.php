@@ -2,7 +2,12 @@
 require "../../assets/helper/bootstrap.php";
 
 if (!isset($_POST) || !check()) {
-  exit("ACCESS DENIED");
+  header('Content-Type: application/json');
+  echo json_encode([
+    "status" => false, 
+    "report" => "ACCESS DENIED"
+  ]);
+  exit();
 }
 
 class Interactions{
