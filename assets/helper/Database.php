@@ -533,8 +533,11 @@ class Database{
          ] ;
          
          foreach ($sql as $val) {
+           $this->connect();
            // code...
            $this->connection->exec($val);
+           $this->connection = null;
+           sleep(3);
          }
          
          echo "Tables generated successfully";
