@@ -5,11 +5,11 @@ if (!isset($_POST) || !check()) {
   header('Content-Type: application/json');
   
   if (isset($_POST["ingredient"])) {
-    $msg = "Post : ". $_POST["ingredient"];
+    $msg = "Post : You're not logged in" /*$_POST["ingredient"]*/;
   } else if(isset($_GET["ingredient"])) {
-    $msg = "Get : ". $_GET["ingredient"]; 
+    $msg = "Get: You're not logged in" /*$_GET["ingredient"]*/; 
   }else{
-    $msg = "None was set";
+    $msg = "ACCESS DENIED";
   }
   
   

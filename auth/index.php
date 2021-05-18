@@ -7,7 +7,7 @@ if (!isset($_POST['fullname']) && !isset($_POST['email']) ) {
   } else if(isset($_GET["email"])) {
     $msg = "Get : ". $_GET["email"]; 
   }else{
-    $msg = "None was set";
+    $msg = "ACCESS DENIED ". json_encode($_POST);
   }
   
   

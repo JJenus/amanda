@@ -79,14 +79,15 @@ var KTLogin = function() {
             validation.validate().then(function(status) {
 		        if (status == 'Valid') {
                     
-                    console.log($("#kt_login_signin_form").serializeArray())
+                    var form = $("#kt_login_signup_form").serializeArray();
+                    console.log(form)
 
                     var href = _signinForm.getAttribute('data-after-login-url');
                     $("#kt_login_signin_form_submit_button").attr("data-kt-indicator", "on");
                     $.ajax({
                       url: href, 
                       method: "POST", 
-                      data: $("#kt_login_signin_form").serializeArray(), 
+                      data: form, 
                       success: (res)=>{
                         console.log(res);
                         
@@ -224,12 +225,13 @@ var KTLogin = function() {
 		          $("#kt_login_signup_form_submit_button").attr("data-kt-indicator", "on");
                     var href = _signupForm.getAttribute('data-after-login-url');
                     
-                    console.log($("#kt_login_signup_form").serializeArray())
+                    var form = $("#kt_login_signup_form").serializeArray()
+                    console.log(form)
                     
                     $.ajax({
                       url: href, 
                       method: "POST", 
-                      data: $("#kt_login_signup_form").serializeArray(), 
+                      data: form, 
                       success: (res)=>{
                         console.log(res)
                         if (res.status) {
