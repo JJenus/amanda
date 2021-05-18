@@ -1,7 +1,7 @@
 <?php 
 if (!isset($_POST["cart"])) {
-  header('Content-Type: application/json');
-  echo json_encode([
+ 
+  echo reply([
     "status" => false, 
     "report" => "ACCESS DENIED"
   ]);

@@ -11,6 +11,6 @@ if (check()) {
 
 #(new Database ())->createTables(); 
 
-(new Database ())->emptyTable("products");
+(new Database ())->emptyTable("orders");
 
 # echo ROOTPATH;

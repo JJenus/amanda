@@ -158,11 +158,9 @@ class Database{
   
   public function saveFile($name){
     $target_dir = ROOTPATH."/products/";
-    
-    $imageFileType = pathinfo($_FILES[$name]["name"], PATHINFO_EXTENSION);
-    $fileName = "img_". $this->random_str(20, "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijkpmnopqrstuvwxyz").'.'.$imageFileType;
-    $target_file = $target_dir . $fileName;
+    $target_file = $target_dir . basename($_FILES[$name]["name"]);
     $uploadOk = 1;
+    $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
     
     // Check if image file is a actual image or fake image
     
@@ -174,7 +172,7 @@ class Database{
             $msg = "Sorry, file already exists.";
             $uploadOk = 0;
         } // Check file size
-        else if ($_FILES[$name]["size"] > 10000000) {
+        else if ($_FILES[$name]["size"] > 5000000) {
             $msg = "Sorry, your file is too large.";
             $uploadOk = 0;
         } // Check if $uploadOk is set to 0 by an error
@@ -184,8 +182,8 @@ class Database{
         } else {
             if (move_uploaded_file($_FILES[$name]["tmp_name"], $target_file)) {
                 $msg = "The file " . basename($_FILES[$name]["name"]) . " has been uploaded.";
-            }else $msg = "unknown error occurred ";
-        }
+            }
+        } 
         
     if (!$uploadOk) {
       return [
@@ -193,6 +191,8 @@ class Database{
         "report" => $msg
       ];
     }
+    
+    $fileName = $_FILES[$name]["name"];
     
     return [
         "status" => true, 
