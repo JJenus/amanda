@@ -55,8 +55,12 @@
 							<!--begin::Action-->
 							<div class="pb-lg-0 pb-5">
 								<button type="submit" id="kt_login_signin_form_submit_button" class="btn btn-primary fw-bolder fs-6 px-8 py-4 my-3 me-3">
-								  <span class="spinner-grow d-none spinner-grow-sm mr-2"></span>
-								  Sign In
+								  <span class="indicator-label">
+                    Submit
+                  </span>
+                  <span class="indicator-progress">
+                      Please wait... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                  </span>
 								</button>
 							</div>
 							<!--end::Action-->
@@ -108,8 +112,12 @@
 							<!--begin::Form group-->
 							<div class="d-flex flex-wrap pb-lg-0 pb-5">
 								<button type="button" id="kt_login_signup_form_submit_button" class="btn btn-primary fw-bolder fs-6 px-8 py-4 my-3 me-4">
-								  <span class="spinner-grow d-none spinner-grow-sm mr-2"></span> 
-								  Submit
+								  <span class="indicator-label">
+                    Submit
+                  </span>
+                  <span class="indicator-progress">
+                      Please wait... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                  </span>
 								</button>
 								<button type="button" id="kt_login_signup_form_cancel_button" class="btn btn-light-primary fw-bolder fs-6 px-8 py-4 my-3">Cancel</button>
 							</div>
@@ -135,8 +143,12 @@
 							<!--begin::Form group-->
 							<div class="d-flex flex-wrap pb-lg-0">
 								<button type="button" id="kt_login_password_reset_form_submit_button" class="btn btn-primary fw-bolder fs-6 px-8 py-4 my-3 me-4">
-								  <span class="spinner-grow d-none spinner-grow-sm mr-2"></span>
-								  Submit
+								  <span class="indicator-label">
+                    Submit
+                  </span>
+                  <span class="indicator-progress">
+                      Please wait... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                  </span>
 								</button>
 								<button type="button" id="kt_login_password_reset_form_cancel_button" class="btn btn-light-primary fw-bolder fs-6 px-8 py-4 my-3">Cancel</button>
 							</div>

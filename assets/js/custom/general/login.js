@@ -78,41 +78,45 @@ var KTLogin = function() {
             
             validation.validate().then(function(status) {
 		        if (status == 'Valid') {
-                    console.log('test!');
-                    KTUtil.removeClass(submitButton.children[0], 'd-none') 
+                    
 
                     var href = _signinForm.getAttribute('data-after-login-url');
-                    
+                    $("#kt_login_signin_form_submit_button").attr("data-kt-indicator", "on");
                     $.ajax({
                       url: href, 
                       method: "POST", 
                       data: $("#kt_login_signin_form").serializeArray(), 
                       success: (res)=>{
-                        //console.log(res);
-                        KTUtil.addClass(submitButton.children[0], 'd-none');
+                        console.log(res);
+                        
                         if (res.status) {
                           console.log(res);
+                          notify('success', "Welcome back")
                           window.location.href = res.redirect;
+                          return
                         }
+                        notify("error", res.report)
                       },
                       error: (err)=>{
                         console.log(err)
-                        KTUtil.addClass(submitButton.children[0], 'd-none') ;
+                        notify("error", "Error occured")
                       } 
+                    }).always(()=>{
+                      $("#kt_login_signin_form_submit_button").attr("data-kt-indicator", null);
                     })
 
                     /*
                     swal.fire({
-		                text: "All is cool! Now you submit this form",
-		                icon: "success",
-		                buttonsStyling: false,
-		                confirmButtonText: "Ok, got it!",
+  		                text: "All is cool! Now you submit this form",
+  		                icon: "success",
+  		                buttonsStyling: false,
+  		                confirmButtonText: "Ok, got it!",
                         customClass: {
-    						confirmButton: "btn fw-bold btn-light-primary"
-    					}
-		            }).then(function() {
-						KTUtil.scrollTop();
-					});
+              						confirmButton: "btn fw-bold btn-light-primary"
+              					}
+          		            }).then(function() {
+          						KTUtil.scrollTop();
+          					});
                     */
 				} else {
 					swal.fire({
@@ -212,13 +216,11 @@ var KTLogin = function() {
 
         submitButton.addEventListener('click', function (e) {
             e.preventDefault();
-            KTUtil.removeClass(submitButton.children[0], 'd-none');
+            
             
             validation.validate().then(function(status) {
 		        if (status == 'Valid') {
-		          
-		          console.log('test!');
-
+		          $("#kt_login_signup_form_submit_button").attr("data-kt-indicator", "on");
                     var href = _signupForm.getAttribute('data-after-login-url');
                     
                     $.ajax({
@@ -226,16 +228,26 @@ var KTLogin = function() {
                       method: "POST", 
                       data: $("#kt_login_signup_form").serializeArray(), 
                       success: (res)=>{
-                        KTUtil.removeClass(submitButton.children[0], 'd-none') 
+                        console.log(res)
                         if (res.status) {
                           console.log(res);
+                          notify('success', "Welcome aboard")
                           window.location.href = res.redirect;
+                          return ;
                         }
+                        
+                        if(res.report == "invalidUser"){
+                          notify('error', "Email is already registered")
+                        } else notify('error', res.report) 
+                        
                       },
                       error: (err)=>{
-                        KTUtil.addClass(submitButton.children[0], 'd-none') 
+                        
                         console.log(err)
+                        notify('error', "Error occured ")
                       } 
+                    }).always(()=>{
+                      $("#kt_login_signup_form_submit_button").attr("data-kt-indicator", null);
                     })
 		          
                     /*swal.fire({
