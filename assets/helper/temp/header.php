@@ -23,5 +23,5 @@
 </head>
 <!--end::Head--> 
 	<!--begin::Body-->
-	<body id="kt_body" data-sidebar="on" class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled sidebar-enabled">
+	<body id="kt_body" <?php if ($page === 'home'): ?>data-sidebar="on"<?php endif; ?> class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled <?php if ($page ==='home'): ?>sidebar-enabled<?php endif; ?> ">
 	 

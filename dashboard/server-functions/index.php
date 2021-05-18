@@ -3,9 +3,19 @@ require "../../assets/helper/bootstrap.php";
 
 if (!isset($_POST) || !check()) {
   header('Content-Type: application/json');
+  
+  if (isset($_POST["ingredient"])) {
+    $msg = "Post : ". $_POST["ingredient"];
+  } else if(isset($_GET["ingredient"])) {
+    $msg = "Get : ". $_GET["ingredient"]; 
+  }else{
+    $msg = "None was set";
+  }
+  
+  
   echo json_encode([
     "status" => false, 
-    "report" => "ACCESS DENIED"
+    "report" => $msg
   ]);
   exit();
 }

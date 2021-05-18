@@ -9,18 +9,25 @@ class Database{
   private $connection;
                                                                                          
   public function __construct(){
-   $url = parse_url(getenv("CLEARDB_DATABASE_URL"));
-
-    $server = $url["host"];
-    $this->user = $url["user"];
-    $this->pass = $url["pass"];
-    $db = substr($url["path"], 1);
+    if (ENVIRONMENT == "production") {
+      $url = parse_url(getenv("CLEARDB_DATABASE_URL"));
+  
+      $server = $url["host"];
+      $this->user = $url["user"];
+      $this->pass = $url["pass"];
+      $db = substr($url["path"], 1);
+      
+      $this->dsn = "mysql:host=$server;dbname=$db"; // mysql 
+    }
+                                                                            
     
-    $this->dsn = "mysql:host=$server;dbname=$db"; // mysql 
-
-     # $this->sql3 ="sqlite:".WRITEPATH. $this->db_name.".sqlite" ; // sqlite 
+                                                                           
+    if (ENVIRONMENT == "development") {
+      $this->sql3 ="sqlite:".WRITEPATH. $this->db_name.".sqlite" ; // sqlite 
+    }
+    
      
-   $this->connect();
+    $this->connect();
    
   }
   
@@ -439,9 +446,13 @@ class Database{
   
   public function connect(){
     if(!$this->connection){
-      $this->connection = new PDO($this->dsn, $this->user, $this->pass) or exit("Connection error");
+      if (ENVIRONMENT == "development") {
+        $this->connection = new PDO($this->sql3) or exit("Connection error");
+      }
       
-      # $this->connection = new PDO($this->sql3) or exit("Connection error");
+      if (ENVIRONMENT == "production") {
+        $this->connection = new PDO($this->dsn, $this->user, $this->pass) or exit("Connection error");
+      }
       $this->connection->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );//Error Handling
     } 
     
@@ -482,7 +493,6 @@ class Database{
          ] ;
          
          foreach ($sql as $val) {
-           // code...
            $this->connection->exec($val);
          }
          
@@ -493,7 +503,6 @@ class Database{
     }
     
   }
-                                                                                                                                            
 }
 
 
@@ -501,7 +510,4 @@ class Database{
 
 
 
-
-
-
-
+                                                                                                                                            

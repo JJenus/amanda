@@ -32,22 +32,22 @@
 							</div>
 							<!--end::Left-->
 							<!--begin::Right-->
-							<div class="d-flex align-items-center d-flex-row justify-content-around">
+							<div class="align-items-center row justify-content-start">
 								<!--begin::logout-->
 								<?php if (!check()): ?>
   								<!--begin::login-->
-  								<div class="col-3">
+  								<div class="col-5 me-3 me-md-4">
   								<a href="<?= base_url() ?>/login" class="btn  btn-icon btn-sm btn-active-light-primary ms-1 ms-lg-6" >
-  									<i class="fas fs-2x fa-sign-in-alt"></i>
+  									<i class="fas fs-2x fa-sign-in-alt me-2"></i>
   									<span class="d-none d-md-inline-block"> Login</span>
   								</a>
   								</div>
   								<!--end::login -->
 								<?php else: ?>
 								  <!-- html... -->
-								  <div class="col-3">
-  								<a href="<?= base_url() ?>/logout" class="btn btn-icon btn-sm btn-active-light-danger ms-3 ms-lg-6" >
-  									<i class="fas fs-2x fa-power-off mr-4"></i>
+								  <div class="col-5 me-3 me-md-4">
+  								<a href="<?= base_url() ?>/logout" class="btn btn-icon btn-sm btn-active-light-danger" >
+  									<i class="fas fs-2x fa-power-off me-2"></i>
   									<span class="d-md-inline-block d-none pl-4"> Logout</span>
   								</a>
   								</div>
@@ -59,8 +59,8 @@
 								<!--begin::Aside Toggler-->
 								<!--end::Aside Toggler-->
 								<!--begin::Sidebar Toggler-->
-								<div class="col-3">
-								<button class="btn  btn-icon btn-sm btn-active-light-primary d-lg-none ms-4 ms-lg-6" id="kt_sidebar_toggler">
+								<div class="col-5 me-3 me-md-2 d-lg-none">
+								<button class="btn  btn-icon btn-sm btn-active-light-primary d-lg-none" id="kt_sidebar_toggler">
 									<!--begin::Svg Icon | path: icons/stockholm/Text/Menu.svg-->
 								  <span class="fas fa-shopping-cart fs-2"></span>
 								  <!--begin::Dropdown-->
