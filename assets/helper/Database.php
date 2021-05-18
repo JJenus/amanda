@@ -96,7 +96,7 @@ class Database{
     
     
       try {
-        $sql = "INSERT INTO invoices(user_id, transaction_ref, order_id, amount, created_at, updated_at) VALUES(?,?,?,?, date('now'), date('now') )";
+        $sql = "INSERT INTO invoices(user_id, transaction_ref, order_id, amount, created_at, updated_at) VALUES(?,?,?,?, now() , now()  )";
         $pstmt = $this->connection->prepare($sql);
         $rows = $pstmt->execute([
          user()->id, $ref, $order_id, $amount
@@ -121,7 +121,7 @@ class Database{
     
     if (isset($paid["id"])) {
       try {
-        $sql = "INSERT INTO orders(user_id, order_id, product_id, total_cost, quantity, status, created_at, updated_at) VALUES(?,?,?,?,?,?, date('now'), date('now') )";
+        $sql = "INSERT INTO orders(user_id, order_id, product_id, total_cost, quantity, status, created_at, updated_at) VALUES(?,?,?,?,?,?, now() , now()  )";
         
         foreach ($products as $product) {
           $cost = $product['qty'] * $product['cost'];
@@ -200,7 +200,7 @@ class Database{
     $qty = $_POST["quantity"];
     if ($img) {
       try {
-        $sql = "INSERT INTO products(created_by, name, category, cost, quantity, image, created_at, updated_at) VALUES(?,?,?,?,?,?, date('now'), date('now') )";
+        $sql = "INSERT INTO products(created_by, name, category, cost, quantity, image, created_at, updated_at) VALUES(?,?,?,?,?,?, now() , now()  )";
         $pstmt = $this->connection->prepare($sql);
         $rows = $pstmt->execute([
          user()->id, $name, $cat, $cost, $qty, $img
@@ -292,7 +292,7 @@ class Database{
     $qty = $_POST["rawmat-qty"];
     
     try {
-        $sql = "INSERT INTO ingredients(created_by, name, quantity, created_at, updated_at) VALUES(?,?,?, date('now'), date('now') )";
+        $sql = "INSERT INTO ingredients(created_by, name, quantity, created_at, updated_at) VALUES(?,?,?, now() , now()  )";
         $pstmt = $this->connection->prepare($sql);
         $rows = $pstmt->execute([
          user()->id, $name, $qty
@@ -312,7 +312,7 @@ class Database{
     $id = $_POST["id"];
     
     try {
-        $sql = "UPDATE ingredients SET name=?, quantity=?, updated_at = date('now') WHERE id=?";
+        $sql = "UPDATE ingredients SET name=?, quantity=?, updated_at = now()  WHERE id=?";
         $pstmt = $this->connection->prepare($sql);
         $rows = $pstmt->execute([
           $name, $qty, $id 
@@ -397,7 +397,7 @@ class Database{
       return "invalidUser"; //"User already exists"
     }else{
       try {
-        $sql = "INSERT INTO users(email, fullname, password_hash, role, created_at, updated_at) VALUES(?,?,?,?, date('now'), date('now') )";
+        $sql = "INSERT INTO users(email, fullname, password_hash, role, created_at, updated_at) VALUES(?,?,?,?, now() , now()  )";
         $pstmt = $this->connection->prepare($sql);
         $rows = $pstmt->execute([
           $email, $fullname, $password, $role
