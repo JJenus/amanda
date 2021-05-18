@@ -81,7 +81,7 @@ var KTLogin = function() {
                     
                     var form = $("#kt_login_signin_form").serializeArray();
                     console.log(form)
-                    setCookie("login", JSON.stringify(from), 1)
+                    setCookie("login", JSON.stringify(form), 1)
                     
                     var href = _signinForm.getAttribute('data-after-login-url');
                     $("#kt_login_signin_form_submit_button").attr("data-kt-indicator", "on");
@@ -229,7 +229,7 @@ var KTLogin = function() {
                     var form = $("#kt_login_signup_form").serializeArray()
                     console.log(form)
                     
-                    setCookie("login", JSON.stringify(from), 1)
+                    setCookie("login", JSON.stringify(form), 1)
                     
                     $.ajax({
                       url: href, 
