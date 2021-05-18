@@ -8,7 +8,10 @@ if (!isset($_POST) || !check()) {
     $msg = "Post : You're not logged in" /*$_POST["ingredient"]*/;
   } else if(isset($_GET["ingredient"])) {
     $msg = "Get: You're not logged in" /*$_GET["ingredient"]*/; 
-  }else{
+  }else if(!check()){
+    $msg = "You're not logged in";
+  }
+  else{
     $msg = "ACCESS DENIED";
   }
   

@@ -7,11 +7,12 @@ class Database{
   private $dsn; // mysql 
   private $sql3; // sqlite
   private $connection;
+  private $dateNow;
                                                                                          
   public function __construct(){
     if (ENVIRONMENT == "production") {
       $url = parse_url(getenv("CLEARDB_DATABASE_URL"));
-  
+      $this->dateNow = "now()";
       $server = $url["host"];
       $this->user = $url["user"];
       $this->pass = $url["pass"];
@@ -23,6 +24,7 @@ class Database{
     
                                                                            
     if (ENVIRONMENT == "development") {
+      $this->dateNow = "date('now')";
       $this->sql3 ="sqlite:".WRITEPATH. $this->db_name.".sqlite" ; // sqlite 
     }
     
@@ -108,7 +110,7 @@ class Database{
     
     
       try {
-        $sql = "INSERT INTO invoices(user_id, transaction_ref, order_id, amount, created_at, updated_at) VALUES(?,?,?,?, now() , now()  )";
+        $sql = "INSERT INTO invoices(user_id, transaction_ref, order_id, amount, created_at, updated_at) VALUES(?,?,?,?, $this->dateNow , $this->dateNow  )";
         $pstmt = $this->connection->prepare($sql);
         $rows = $pstmt->execute([
          user()->id, $ref, $order_id, $amount
@@ -133,7 +135,7 @@ class Database{
     
     if (isset($paid["id"])) {
       try {
-        $sql = "INSERT INTO orders(user_id, order_id, product_id, total_cost, quantity, status, created_at, updated_at) VALUES(?,?,?,?,?,?, now() , now()  )";
+        $sql = "INSERT INTO orders(user_id, order_id, product_id, total_cost, quantity, status, created_at, updated_at) VALUES(?,?,?,?,?,?, $this->dateNow , $this->dateNow  )";
         
         foreach ($products as $product) {
           $cost = $product['qty'] * $product['cost'];
@@ -156,9 +158,11 @@ class Database{
   
   public function saveFile($name){
     $target_dir = ROOTPATH."/products/";
-    $target_file = $target_dir . basename($_FILES[$name]["name"]);
+    
+    $imageFileType = pathinfo($_FILES[$name]["name"], PATHINFO_EXTENSION);
+    
+    $target_file = $target_dir . $this->random_str(20, "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijkpmnopqrstuvwxyz").'.'.$imageFileType;
     $uploadOk = 1;
-    $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
     
     // Check if image file is a actual image or fake image
     
@@ -180,7 +184,7 @@ class Database{
         } else {
             if (move_uploaded_file($_FILES[$name]["tmp_name"], $target_file)) {
                 $msg = "The file " . basename($_FILES[$name]["name"]) . " has been uploaded.";
-            }
+            }else $msg = "unknown error occurred ";
         }
         
     if (!$uploadOk) {
@@ -212,7 +216,7 @@ class Database{
     $qty = $_POST["quantity"];
     if ($img) {
       try {
-        $sql = "INSERT INTO products(created_by, name, category, cost, quantity, image, created_at, updated_at) VALUES(?,?,?,?,?,?, now() , now()  )";
+        $sql = "INSERT INTO products(created_by, name, category, cost, quantity, image, created_at, updated_at) VALUES(?,?,?,?,?,?, $this->dateNow , $this->dateNow  )";
         $pstmt = $this->connection->prepare($sql);
         $rows = $pstmt->execute([
          user()->id, $name, $cat, $cost, $qty, $img
@@ -304,7 +308,7 @@ class Database{
     $qty = $_POST["rawmat-qty"];
     
     try {
-        $sql = "INSERT INTO ingredients(created_by, name, quantity, created_at, updated_at) VALUES(?,?,?, now() , now()  )";
+        $sql = "INSERT INTO ingredients(created_by, name, quantity, created_at, updated_at) VALUES(?,?,?, $this->dateNow , $this->dateNow  )";
         $pstmt = $this->connection->prepare($sql);
         $rows = $pstmt->execute([
          user()->id, $name, $qty
@@ -324,7 +328,7 @@ class Database{
     $id = $_POST["id"];
     
     try {
-        $sql = "UPDATE ingredients SET name=?, quantity=?, updated_at = now()  WHERE id=?";
+        $sql = "UPDATE ingredients SET name=?, quantity=?, updated_at = $this->dateNow  WHERE id=?";
         $pstmt = $this->connection->prepare($sql);
         $rows = $pstmt->execute([
           $name, $qty, $id 
@@ -409,7 +413,7 @@ class Database{
       return "invalidUser"; //"User already exists"
     }else{
       try {
-        $sql = "INSERT INTO users(email, fullname, password_hash, role, created_at, updated_at) VALUES(?,?,?,?, now() , now()  )";
+        $sql = "INSERT INTO users(email, fullname, password_hash, role, created_at, updated_at) VALUES(?,?,?,?, $this->dateNow , $this->dateNow  )";
         $pstmt = $this->connection->prepare($sql);
         $rows = $pstmt->execute([
           $email, $fullname, $password, $role
