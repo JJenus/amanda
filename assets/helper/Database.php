@@ -219,7 +219,7 @@ class Database{
         $sql = "INSERT INTO products(created_by, name, category, cost, quantity, image, created_at, updated_at) VALUES(?,?,?,?,?,?, $this->dateNow , $this->dateNow  )";
         $pstmt = $this->connection->prepare($sql);
         $rows = $pstmt->execute([
-         user()->id, $name, $cat, $cost, $qty, $img
+          user()->id, $name, $cat, $cost, $qty, $img
         ]);
         
         if($rows){
