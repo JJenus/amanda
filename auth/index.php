@@ -2,9 +2,18 @@
 
 if (!isset($_POST['fullname']) && !isset($_POST['email']) ) {
   header('Content-Type: application/json');
+  if (isset($_POST["email"])) {
+    $msg = "Post : ". $_POST["email"];
+  } else if(isset($_GET["email"])) {
+    $msg = "Get : ". $_GET["email"]; 
+  }else{
+    $msg = "None was set";
+  }
+  
+  
   echo json_encode([
     "status" => false, 
-    "report" => "ACCESS DENIED"
+    "report" => $msg
   ]);
   exit();
 }
