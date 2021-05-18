@@ -160,8 +160,8 @@ class Database{
     $target_dir = ROOTPATH."/products/";
     
     $imageFileType = pathinfo($_FILES[$name]["name"], PATHINFO_EXTENSION);
-    
-    $target_file = $target_dir . $this->random_str(20, "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijkpmnopqrstuvwxyz").'.'.$imageFileType;
+    $fileName = "img_". $this->random_str(20, "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijkpmnopqrstuvwxyz").'.'.$imageFileType;
+    $target_file = $target_dir . $fileName;
     $uploadOk = 1;
     
     // Check if image file is a actual image or fake image
@@ -197,7 +197,7 @@ class Database{
     return [
         "status" => true, 
         "report" => $msg, 
-        "file" => base_url."/products/".$_FILES[$name]["name"]
+        "file" => base_url."/products/".$fileName
     ];
   }
   
@@ -223,12 +223,30 @@ class Database{
         ]);
         
         if($rows){
-          return true;
-        }
+          return [
+            "status" => "ok", 
+            "report" => "project is uploaded", 
+            "data" => $img
+          ];
+        }else{
+          return [
+            "status" => false, 
+            "report" => "Failed to save product", 
+          ];
+        } 
       } catch(PDOException $e) {
-        return $e->getMessage();//Remove or change message in production code
+        return [
+            "status" => false, 
+            "report" => $e->getMessage(), 
+          ];
+        //Remove or change message in production code
       }
-    }else return "file upload failed";
+    }else{
+      return [
+        "status" => false, 
+        "report" => "Failed to upload image file", 
+      ];
+    } 
   }
   
   public function getProducts(){

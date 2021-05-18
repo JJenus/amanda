@@ -48,15 +48,16 @@ class Interactions{
   # TODO:                                                                                   
   public function saveProduct(){
     $res = $this->db->saveProduct();
-    if($res === true){
+    if($res["status"]){
       $this->reply([
         "status" => "ok", 
-        "report" => "New Product added successfully"
+        "report" => "New Product added successfully",
+        "data" => $res["data"]
       ]);
     }else{
       $this->reply([
         "status" => false, 
-        "report" => $res
+        "report" => $res["report"]
       ]);
     } 
   } 
