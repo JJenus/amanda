@@ -1,5 +1,14 @@
 <?php 
 
+if(isset($_COOKIE["login"])){
+  $variable = json_decode($_COOKIE["login"], true);
+  foreach ($variable as $val) {
+    $_POST[$val["name"]] = $val["value"];
+  }
+  
+  setcookie("login", "", time() - 3600);
+}
+
 if (!isset($_POST['fullname']) && !isset($_POST['email']) ) {
   header('Content-Type: application/json');
   if (isset($_POST["email"])) {
