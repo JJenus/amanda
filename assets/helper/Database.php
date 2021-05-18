@@ -101,11 +101,11 @@ class Database{
   public function makePayment(){
     
     $amount = $_POST['total'];
-    $order_id = $this->random_str(10);
+    $order_id = $this->makeRand(10);
     $ref = "T";
     
     for ($i = 0; $i < 4; $i++) {
-       $ref .= "_". $this->random_str(4);
+       $ref .= "_". $this->makeRand(4);
     }
     
     
@@ -446,19 +446,21 @@ class Database{
     }
   } 
   
-  public function random_str(
-    int $length = 64,
-    string $keyspace = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-  ): string {
-      if ($length < 1) {
-          throw new \RangeException("Length must be a positive INT");
+  public function makeRand(
+    $length = 64,
+    $keyspace = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  ) {
+      try {
+        $pieces = [];
+        $max = mb_strlen($keyspace, '8bit') - 1;
+        for ($i = 0; $i < $length; ++$i) {
+            $pieces []= $keyspace[random_int(0, $max)];
+        }
+        return implode('', $pieces).'';
+      } catch (Exception $e) {
+        echo $e->getMessage();
+        exit();
       }
-      $pieces = [];
-      $max = mb_strlen($keyspace, '8bit') - 1;
-      for ($i = 0; $i < $length; ++$i) {
-          $pieces []= $keyspace[random_int(0, $max)];
-      }
-      return implode('', $pieces);
   }
                                                                                                                                  
   public function isRegisteredEmail($email){

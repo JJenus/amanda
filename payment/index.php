@@ -1,4 +1,6 @@
 <?php 
+require "../assets/helper/bootstrap.php";
+
 if (!isset($_POST["cart"])) {
  
   echo reply([
@@ -7,7 +9,6 @@ if (!isset($_POST["cart"])) {
   ]);
   exit();
 }
-require "../assets/helper/bootstrap.php";
 
 if(!check()){
   reply([
@@ -15,12 +16,6 @@ if(!check()){
     "report" => "Please login to continue."
   ]);
 }
-/*else {
-  reply([
-    "status" => false, 
-    "report" => json_decode($_POST["cart"], true)
-  ]);
-} */
 
 $res = (new Database ())->createOrder();
 

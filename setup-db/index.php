@@ -11,6 +11,6 @@ if (check()) {
 
 #(new Database ())->createTables(); 
 
-(new Database ())->emptyTable("orders");
+(new Database ())->emptyTable($_GET['table']);
 
 # echo ROOTPATH;
