@@ -79,6 +79,7 @@ var KTLogin = function() {
             validation.validate().then(function(status) {
 		        if (status == 'Valid') {
                     
+                    console.log($("#kt_login_signin_form").serializeArray())
 
                     var href = _signinForm.getAttribute('data-after-login-url');
                     $("#kt_login_signin_form_submit_button").attr("data-kt-indicator", "on");
@@ -222,6 +223,8 @@ var KTLogin = function() {
 		        if (status == 'Valid') {
 		          $("#kt_login_signup_form_submit_button").attr("data-kt-indicator", "on");
                     var href = _signupForm.getAttribute('data-after-login-url');
+                    
+                    console.log($("#kt_login_signup_form").serializeArray())
                     
                     $.ajax({
                       url: href, 
