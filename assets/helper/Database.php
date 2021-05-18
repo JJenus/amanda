@@ -60,6 +60,18 @@ class Database{
     }
   } 
   
+  public function emptyTable($table){
+    try {
+        $sql = "DELETE FROM $table";
+        $pstmt = $this->connection->query($sql);
+        
+        if($pstmt){
+          echo $table." emptied";
+        }
+      } catch(PDOException $e) {
+        return $e->getMessage();//Remove or change message in production code
+      }
+  }
   
   public function getInvoices(){
     try {
@@ -91,7 +103,7 @@ class Database{
     $ref = "T";
     
     for ($i = 0; $i < 4; $i++) {
-       $ref .= "-". $this->random_str(4);
+       $ref .= "_". $this->random_str(4);
     }
     
     
