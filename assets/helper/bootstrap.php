@@ -3,7 +3,7 @@ if (!isset($_SESSION)) {
   session_start();
 }
 
-defined("ENVIRONMENT") || define('ENVIRONMENT', "development");
+defined("ENVIRONMENT") || define('ENVIRONMENT', "production");
 defined("APP_NAME") || define('APP_NAME', "Amanda's");
 defined("CURRENCY") || define('CURRENCY', "NGN ");
 defined("ROOTPATH") || define('ROOTPATH', $_SERVER["DOCUMENT_ROOT"].'/');
