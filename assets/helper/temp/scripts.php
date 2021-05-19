@@ -49,7 +49,7 @@
 		
 		<?php if ($page === "auth"): ?>
 		  <!--begin::Page Custom Javascript(used by this page)-->
-		  <script src="../assets/js/custom/general/login.js"></script>
+		  <script src="<?= base_url() ?>/assets/js/custom/general/login.js"></script>
 		  <!--end::Page Custom Javascript-->
 		<?php endif; ?>
 		
