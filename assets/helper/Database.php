@@ -170,7 +170,11 @@ class Database{
         } // Check if file already exists
         else if (file_exists($target_file)) {
             $msg = "Sorry, file already exists.";
-            $uploadOk = 0;
+            return [
+                "status" => true, 
+                "report" => $msg, 
+                "file" => base_url."/products/".$_FILES[$name]["name"]
+            ];
         } // Check file size
         else if ($_FILES[$name]["size"] > 5000000) {
             $msg = "Sorry, your file is too large.";

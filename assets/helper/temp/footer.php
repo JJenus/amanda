@@ -13,13 +13,13 @@
 		<!--begin::Nav-->
 		<ul class="menu menu-gray-600 menu-hover-primary fw-bold order-1">
 			<li class="menu-item">
+				<a href="<?= base_url ?>/dashboard" class="menu-link ps-0 pe-2">Dashboard</a>
+			</li>
+			<li class="menu-item">
 				<a  class="menu-link ps-0 pe-2">About</a>
 			</li>
 			<li class="menu-item">
 				<a  class="menu-link pe-0 pe-2">Contact</a>
-			</li>
-			<li class="menu-item">
-				<a  class="menu-link pe-0">Purchase</a>
 			</li>
 		</ul>
 		<!--end::Nav-->
