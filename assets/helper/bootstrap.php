@@ -4,7 +4,7 @@ if (!isset($_SESSION)) {
 }
 
 defined("ENVIRONMENT") || define('ENVIRONMENT', "production");
-defined("APP_NAME") || define('APP_NAME', "Amanda's");
+defined("APP_NAME") || define('APP_NAME', "PepperoniFoodsConfec");
 defined("CURRENCY") || define('CURRENCY', "NGN ");
 defined("ROOTPATH") || define('ROOTPATH', $_SERVER["DOCUMENT_ROOT"].'/');
 defined("WRITEPATH") || define('WRITEPATH', ROOTPATH.'writeable/');
