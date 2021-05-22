@@ -22,3 +22,4 @@ if (ENVIRONMENT == "production") {
 
 require HELPERPATH.'config.php';
 
+$SOME_THING_UNEXPECTED = null;
