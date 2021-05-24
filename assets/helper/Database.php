@@ -532,11 +532,11 @@ function getToken($length)
          }
          
          $sql = ["
-          DROP TABLE IF EXISTS `invoices`;
+          DROP TABLE IF EXISTS `invoices`;", 
           
-          CREATE TABLE `invoices` (
+          "CREATE TABLE `invoices` (
           `id` INT PRIMARY KEY AUTOINCREMENT ,
-          `user_id` INT NOT NULL,
+          `user_id` INT,
           `transaction_ref` text,
           `amount` text,
           `order_id` text,
