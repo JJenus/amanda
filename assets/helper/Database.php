@@ -532,19 +532,19 @@ function getToken($length)
          }
          
          $sql = ["
-          DROP TABLE IF EXISTS `orders`;
-          ", 
-          "CREATE TABLE `orders` (
-          `id` INT PRIMARY KEY AUTO_INCREMENT,
+          DROP TABLE IF EXISTS `invoices`;
+          
+          CREATE TABLE `invoices` (
+          `id` INT PRIMARY KEY AUTOINCREMENT ,
           `user_id` INT NOT NULL,
-          `product_id` INT NOT NULL,
-          `order_id` text,
-          `total_cost` text,
-          `quantity` INT,
-          `status` text ,
-          `created_at` timestamp,
-          `updated_at` timestamp,
-          `deleted_at` timestamp);", 
+          `transaction_ref` text (255) NOT NULL UNIQUE,
+          `amount` text  NOT NULL UNIQUE,
+          `order_id` text NOT NULL UNIQUE,
+          `created_at` timestamp NOT NULL,
+          `updated_at` timestamp NOT NULL,
+          `deleted_at` timestamp
+          "
+ 
          ] ;
          
          foreach ($sql as $val) {

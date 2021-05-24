@@ -9,8 +9,16 @@ if (check()) {
 # $sales = (new Database ())->getSales();
 
 
-#(new Database ())->createTables(); 
 
-(new Database ())->emptyTable($_GET['table']);
+if (isset($_GET['table'])) {
+  // code...
+  (new Database ())->emptyTable($_GET['table']);
+}
+
+if (isset($_GET['createtables'])) {
+  // code...
+  (new Database ())->createTables(); 
+}
+
 
 # echo ROOTPATH;
