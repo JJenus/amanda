@@ -535,8 +535,8 @@ function getToken($length)
           DROP TABLE IF EXISTS `invoices`;", 
           
           "CREATE TABLE `invoices` (
-          `id` INT PRIMARY KEY AUTOINCREMENT ,
-          `user_id` INT,
+          `id` integer PRIMARY KEY AUTOINCREMENT ,
+          `user_id` integer,
           `transaction_ref` text,
           `amount` text,
           `order_id` text,
