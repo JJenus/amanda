@@ -1,6 +1,15 @@
 <?php 
 require "../assets/helper/bootstrap.php";
 
+if(isset($_COOKIE["pay"])){
+  $variable = json_decode($_COOKIE["pay"], true);
+  foreach ($variable as $val) {
+    $_POST[$val["name"]] = $val["value"];
+  }
+  
+  setcookie("pay", "", time() - 3600);
+}
+
 if (!isset($_POST["cart"])) {
  
   echo reply([

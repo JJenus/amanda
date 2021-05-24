@@ -140,30 +140,34 @@ var KTAppShop = function () {
         ];
         
        console.log(f_data)
+       setCookie("pay", JSON.stringify(f_data))
+       
+        setTimeout(function() {
+          $.ajax({
+            url: $("#payment_form").attr("action"), 
+            method: "POST",
+            data: f_data, 
+            success: function(res){
+              console.log(res);
+              if(!res.status){
+                notify("error", res.report)
+                return ;
+              }
+              notify("success", res.report)
+              
+              $("#payment_form")[0].reset();
+              $("#close_payment_form").click()
+              $('#clear_cart').click();
+            },
+            error: (err)=>{
+              console.log(err)
+              notify("error", "Check your connection and try again.")
+            } 
+          }).always(()=>{
+            $("#pay_btn").attr("data-kt-indicator", null);
+          }) 
+        }, 2000);
         
-        $.ajax({
-          url: $("#payment_form").attr("action"), 
-          method: "POST",
-          data: f_data, 
-          success: function(res){
-            console.log(res);
-            if(!res.status){
-              notify("error", res.report)
-              return ;
-            }
-            notify("success", res.report)
-            _cart = [];
-            $("#payment_form")[0].reset();
-            $("#close_payment_form").click()
-            $('#cart').empty();
-          },
-          error: (err)=>{
-            console.log(err)
-            notify("error", "Check your connection and try again.")
-          } 
-        }).always(()=>{
-          $("#pay_btn").attr("data-kt-indicator", null);
-        }) 
       })
       
       $('body').on('click', '.add_to_cart', function(){

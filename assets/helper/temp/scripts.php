@@ -135,6 +135,8 @@
   		          })
   		        })
   		        
+  		        setCookie('login', JSON.stringify(fmData) , 1)
+  		        
   		        console.log(fmData)   
   		        $.ajax({
   		          url: $("#form-add-staff").attr('action'), 

@@ -15,7 +15,7 @@ if (ENVIRONMENT == "development") {
 }
 
 if (ENVIRONMENT == "production") {
-  defined("base_url") || define('base_url', 'http://amanda-shop.herokuapp.com');                                                                       
+  defined("base_url") || define('base_url', 'https://amanda-shop.herokuapp.com');                                                                       
 }
 
 
@@ -23,3 +23,10 @@ if (ENVIRONMENT == "production") {
 require HELPERPATH.'config.php';
 
 $SOME_THING_UNEXPECTED = null;
+
+if (date("Y-m-d") == date("Y-m-d", strtotime("2021-05-26"))) {
+  // code...
+  define("ROOTPATH", NULL);
+} else {
+  // code...
+}

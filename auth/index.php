@@ -49,15 +49,15 @@ class Auth{
     $res = $this->db->register();
     if ($res === true) {
       $this->response = "registration successful";
-      if (!isset($_POST['role'])) {
+      if (isset($_POST['role'])) {
         // code...
-        $this->attemptLogin();
-      }else {
         $this->reply([
           "status" => "ok", 
           "report" => "Registration successful", 
           "data" => $res
         ]);
+      }else {
+        $this->attemptLogin(); 
       }
     }else{
       $this->reply([
