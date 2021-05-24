@@ -537,7 +537,7 @@ function getToken($length)
           CREATE TABLE `invoices` (
           `id` INT PRIMARY KEY AUTOINCREMENT ,
           `user_id` INT NOT NULL,
-          `transaction_ref` text NOT NULL UNIQUE,
+          `transaction_ref` text NOT NULL,
           `amount` text  NOT NULL UNIQUE,
           `order_id` text NOT NULL UNIQUE,
           `created_at` timestamp NOT NULL,
