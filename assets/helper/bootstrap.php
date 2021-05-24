@@ -15,7 +15,7 @@ if (ENVIRONMENT == "development") {
 }
 
 if (ENVIRONMENT == "production") {
-  defined("base_url") || define('base_url', 'https://amanda-shop.herokuapp.com');                                                                       
+  defined("base_url") || define('base_url', 'http://amanda-shop.herokuapp.com');                                                                       
 }
 
 
