@@ -542,7 +542,7 @@ function getToken($length)
           `order_id` text,
           `created_at` timestamp,
           `updated_at` timestamp,
-          `deleted_at` timestamp
+          `deleted_at` timestamp);
           "
  
          ] ;
